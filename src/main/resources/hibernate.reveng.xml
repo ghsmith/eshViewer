@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-schema="V500"/>
+  <type-mapping>
+    <sql-type jdbc-type="OTHER" hibernate-type="java.sql.Timestamp" />
+  </type-mapping>
+  <table-filter match-name="ORDER_CATALOG"/>
+  <table-filter match-name="PROFILE_TASK_R"/>
+  <table-filter match-name="V500_EVENT_SET_CODE"/>
+  <table-filter match-name="V500_EVENT_SET_CANON"/>
+  <table-filter match-name="CODE_VALUE_EVENT_R"/>
+  <table-filter match-name="DISCRETE_TASK_ASSAY"/>
+  <table-filter match-name="V500_EVENT_SET_EXPLODE"/>
+  <table-filter match-name="V500_EVENT_CODE"/>
+</hibernate-reverse-engineering>
