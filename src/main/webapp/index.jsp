@@ -17,6 +17,11 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
 <script lang="JavaScript">
+
+var rootId = 'd71e8dfe85fa7b59d9bc56cea8d02453';
+
+var searchHits = null;
+
 $(document).ready(function() {
 
 $('#treeView').jstree({
@@ -29,7 +34,7 @@ $('#treeView').jstree({
             },
             'data' : function (node) {
                 return node.id === '#' ?
-                    { 'parentId' : '.11198634' } :
+                    { 'parentId' : rootId } :
                     { 'parentId' : node.id } ;
             }
         },
@@ -39,18 +44,37 @@ $('#treeView').jstree({
     }
 });
 
+$('#treeView').on('select_node.jstree', function (node, selected, event) {
+    $('#detailJson').append(JSON.stringify(selected.node.original, null, "\t") + '\n');
+    $('#detail').scrollTop($('#detail')[0].scrollHeight - $('#detail')[0].clientHeight);
 });
+
+$("#search").on('click', function() {
+    $($('#treeView').jstree().get_json($('#treeView'), {
+        flat: true
+    }))
+        .each(function(index, value) {
+            var node = $("#treeView").jstree().get_node(this.id);
+            $("#treeView").jstree('set_text', node, node.original.text + " (#)");
+            var domNode = $("#treeView").jstree().get_node(this.id, true);
+            $(domNode).css('font-weight', 'bold');
+        });
+});
+
+});
+
 </script>
 
     </head>
 
     <body>
-        <p>
+        <div id="search" style="width: 80%; height: 5vh; padding-bottom: 5px;">
             <form>
-                <input type="text" size="30"/> <input type="button" value="Search">
+                <input type="text" size="60"/> <input id="search" type="button" value="Search"> <-- search not yet implemented, working on it now
             </form>
-        </p>
-        <div id="treeView" style="width: 50%; border: 1px solid black;"></div>
+        </div>
+        <div id="treeView" style="width: 40%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;"></div>
+        <div id="detail" style="width: 40%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;"><pre id="detailJson"></pre></div>
     </body>
 
 </html>
