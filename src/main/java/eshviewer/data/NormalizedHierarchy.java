@@ -17,6 +17,7 @@ import javax.persistence.Id;
 public class NormalizedHierarchy implements java.io.Serializable {
 
     String id;
+    String parentId;
     String nodeType;
     String cd;
     String parentCd;
@@ -31,6 +32,15 @@ public class NormalizedHierarchy implements java.io.Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Column(name="PARENT_ID")
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     @Column(name="NODE_TYPE")
