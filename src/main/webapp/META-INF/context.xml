@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/eshViewer">
-    <!--Resource
+    <Resource
         factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
         name="jdbc/v500Ds"
         type="javax.sql.DataSource"
         driverClassName="oracle.jdbc.OracleDriver"
         auth="Container"
-	username="v500_read_any_user"
+	username="v500_read_all_user"
         password="blueberry100Muffin"
-        url="jdbc:oracle:@cheech.pathology.emory.edu:49161:xe"
-    /-->    
+        url="jdbc:oracle:thin:@cheech.pathology.emory.edu:49161:xe"
+    />    
 </Context>
