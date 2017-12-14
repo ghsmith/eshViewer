@@ -105,7 +105,7 @@ $(document).ready(function() {
         <div id="treeView" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;"></div>
         <div id="detail" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;">
 
-<p style="">
+<p>
 Click on a node in the tree view to see detailed information (JSON format) in
 this pane. The hierarchy presented here attempts to generalize the event set
 hierarchy and extend it to laboratory discrete task assays and primary [order]
