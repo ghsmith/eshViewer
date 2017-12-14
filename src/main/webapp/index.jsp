@@ -7,35 +7,35 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
     <head>
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>ESH Viewer</title>
+        
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
-<script lang="JavaScript">
+        <script lang="JavaScript">
 
 var rootId = 'd71e8dfe85fa7b59d9bc56cea8d02453';
 
-var searchResultMap = null;
+var searchResultMap = {};
 
 function setNodeSearchState() {
     $($('#treeView').jstree().get_json($('#treeView'), { 'flat' : 'true' })).each(function(index, value) {
         var node = $('#treeView').jstree().get_node(this.id);
+        node.li_attr['style'] = 'font-weight : normal;';
         $('#treeView').jstree('set_text', node, node.original.text);
-        var searchResult = searchResultMap[this.id];
-        if(searchResult != null) {
-            $('#treeView').jstree('set_text', node, node.original.text + " (" + searchResult + ")");
-        }
-    });
-    $($('#treeView').jstree().get_json($('#treeView'), { 'flat' : 'true' })).each(function(index, value) {
-        $('#treeView').jstree().get_node(this.id, true).css('font-weight', 'normal');
-        var searchResult = searchResultMap[this.id];
-        if(searchResult != null) {
-            $('#treeView').jstree().get_node(this.id, true).css('font-weight', 'bold');
+        if(this.id in searchResultMap) {
+            var searchResult = searchResultMap[this.id];
+            if(searchResult !== null) {
+                node.li_attr['style'] = 'font-weight: bold;';
+                $('#treeView').jstree('set_text', node, node.original.text + " (" + searchResult + ")");
+            }
         }
     });
 }
@@ -89,16 +89,79 @@ $(document).ready(function() {
 
 });
 
-</script>
+    </script>
 
     </head>
 
-    <body>
-        <div id="search" style="width: 80%; height: 5vh; padding-bottom: 5px;">
+    <body style="font-family: monospace;">
+        
+        <div id="header" style="width: 96%; padding-bottom: 5px;">
+            <p style="font-size: small;">
+                ESH Viewer build 20171214 (PRD V500 schema replicate 20171115)<br/>
+                <a href="http://github.com/ghsmith/eshViewer">http://github.com/ghsmith/eshViewer</a>
+            </p>
             <input id="searchText" type="text" size="60"/> <input id="searchButton" type="button" value="Search">
         </div>
-        <div id="treeView" style="width: 40%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;"></div>
-        <div id="detail" style="width: 40%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;"><pre id="detailJson"></pre></div>
+        <div id="treeView" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;"></div>
+        <div id="detail" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;">
+
+<p style="">
+Click on a node in the tree view to see detailed information (JSON format) in
+this pane. The hierarchy presented here attempts to generalize the event set
+hierarchy and extend it to laboratory discrete task assays and primary [order]
+mnemonics. The generalization approach is currently optimized for general lab,
+so microbiology and blood bank nodes are not well represented below the level of
+the event_code node. The queries run against an unmodified replicate of the V500
+schema.
+</p>
+
+<p>
+Searches currently return nodes where the cd attribute (e.g., <i>11199041</i>)
+or the text attribute (e.g., <i>ALLRESLTSECT</i>) contain the search string.
+Searches are case-insensitive.
+</p>
+
+<p>
+Note that this can be a challenging hierarchy to conceptualize because the
+cardinality of the parent:child relationship is many:many. For example, the
+<i>General Lab</i> event_set node (11199037) has at least 5 different parents.
+The generalized hierarchy currently contains about 350,000 different paths
+between the root and leaf nodes. This is reduced to about 300,000 if
+primary_mnemonic nodes are not considered (the inclusion of primary_mnemonic
+nodes in the hierarchy is contrived, but was convenient for a first
+implementation). Many of these paths are not related to the laboratory.
+</p>
+
+<p>
+Legend:
+    <ul>
+        <li>[S] = event_set node</li>
+        <li>[C] = event_code node</li>
+        <li>[D] = discrete_task_assay node</li>
+        <li>[M] = primary_mnemonic node (order)</li>
+        <li>(#) = count of search hits for node (recursively evaluated)</li>
+    </ul>
+</p>
+
+<p>
+To-do:
+    <ol>
+        <li>Extend generalization to better cover microbiology and blood bank nodes.</li>
+        <li>Show more detail information in this pane when a node is clicked.</li>
+        <li>Attempt to expose "virtual viewing."</li>
+        <li>Consider whether or not primary_mnemonic would be better represented
+        as detail attribute.</li>
+        <li>Searches are currently unconstrained, which is probably unwise.</li>
+        <li>More sophisticated searching modalities (e.g., natural language
+        search).</li>
+    </ol>
+</p>
+
+<pre id="detailJson">
+</pre>
+
+        </div>
+        
     </body>
 
 </html>
