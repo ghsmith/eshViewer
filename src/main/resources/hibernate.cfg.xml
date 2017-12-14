@@ -44,18 +44,7 @@ Contributor(s):
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.dialect">org.hibernate.dialect.Oracle8iDialect</property>
     <property name="hibernate.connection.datasource">java:/comp/env/jdbc/v500Ds</property>
-    <mapping class="eshviewer.data.V500EventSetExplodeId"/>
-    <mapping class="eshviewer.data.ProfileTaskRId"/>
-    <mapping class="eshviewer.data.CodeValueEventR"/>
-    <mapping class="eshviewer.data.DiscreteTaskAssay"/>
-    <mapping class="eshviewer.data.V500EventSetCode"/>
-    <mapping class="eshviewer.data.V500EventSetCanon"/>
-    <mapping class="eshviewer.data.V500EventSetCanonId"/>
-    <mapping class="eshviewer.data.OrderCatalog"/>
-    <mapping class="eshviewer.data.CodeValueEventRId"/>
-    <mapping class="eshviewer.data.V500EventCode"/>
-    <mapping class="eshviewer.data.ProfileTaskR"/>
-    <mapping class="eshviewer.data.V500EventSetExplode"/>
-    <mapping class="eshviewer.data.NormalizedHierarchy"/>
+    <property name="hibernate.show_sql">true</property>
+    <mapping class="eshviewer.data.NormalizedHierarchyNode"/>
   </session-factory>
 </hibernate-configuration>

@@ -5,16 +5,18 @@
  */
 package eshviewer.data;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  *
  * @author ghsmith
  */
 @Entity
-public class NormalizedHierarchy implements java.io.Serializable {
+public class NormalizedHierarchyNode implements java.io.Serializable {
 
     String id;
     String parentId;
@@ -24,6 +26,9 @@ public class NormalizedHierarchy implements java.io.Serializable {
     String seq;
     String disp;
 
+    NormalizedHierarchyNode parent;
+    List<NormalizedHierarchyNode> children;
+    
     @Id
     @Column(name="ID")
     public String getId() {
@@ -87,5 +92,23 @@ public class NormalizedHierarchy implements java.io.Serializable {
     public void setDisp(String disp) {
         this.disp = disp;
     }
-    
+
+    @Transient
+    public NormalizedHierarchyNode getParent() {
+        return parent;
+    }
+
+    public void setParent(NormalizedHierarchyNode parent) {
+        this.parent = parent;
+    }
+
+    @Transient
+    public List<NormalizedHierarchyNode> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<NormalizedHierarchyNode> children) {
+        this.children = children;
+    }
+        
 }
