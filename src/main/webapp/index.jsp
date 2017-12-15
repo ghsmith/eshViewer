@@ -28,13 +28,19 @@ var searchResultMap = {};
 function setNodeSearchState() {
     $($('#treeView').jstree().get_json($('#treeView'), { 'flat' : 'true' })).each(function(index, value) {
         var node = $('#treeView').jstree().get_node(this.id);
-        node.li_attr['style'] = 'font-weight : normal;';
-        $('#treeView').jstree('set_text', node, node.original.text);
         if(this.id in searchResultMap) {
-            var searchResult = searchResultMap[this.id];
-            if(searchResult !== null) {
-                node.li_attr['style'] = 'font-weight: bold;';
-                $('#treeView').jstree('set_text', node, node.original.text + " (" + searchResult + ")");
+            node.li_attr['style'] = 'font-weight: bold;';
+            $('#treeView').jstree('set_text', node, node.original.text + " (" + searchResultMap[this.id] + ")");
+            $('#treeView').jstree('show_node', node);
+        }
+        else {
+            node.li_attr['style'] = 'font-weight : normal;';
+            $('#treeView').jstree('set_text', node, node.original.text);
+            if($('#searchHide').is(':checked')) {
+                $('#treeView').jstree('hide_node', node);
+            }
+            else {
+                $('#treeView').jstree('show_node', node);
             }
         }
     });
@@ -72,6 +78,10 @@ $(document).ready(function() {
         });
     });
 
+    $('#searchHide').on('click', function() {
+        setNodeSearchState();
+    });
+
     $('#treeView').on('after_open.jstree', function (node) {
         setNodeSearchState();
     });
@@ -83,7 +93,7 @@ $(document).ready(function() {
     });
 
     $('#treeView').on('select_node.jstree', function (node, selected, event) {
-        $('#detailJson').append(JSON.stringify(selected.node.original, null, "\t") + '\n');
+        $('#detail').append('<pre style="border: 1px solid black; margin: 5px; background-color: lightgray;">' + JSON.stringify(selected.node.original, null, "\t") + '</pre>');
         $('#detail').scrollTop($('#detail')[0].scrollHeight - $('#detail')[0].clientHeight);
     });
 
@@ -100,7 +110,8 @@ $(document).ready(function() {
                 ESH Viewer build 20171214 (PRD V500 schema replicate 20171115)<br/>
                 <a href="http://github.com/ghsmith/eshViewer">http://github.com/ghsmith/eshViewer</a>
             </p>
-            <input id="searchText" type="text" size="60"/> <input id="searchButton" type="button" value="Search">
+            <input id="searchText" type="text" size="60"/> <input id="searchButton" type="button" value="Search"><br/>
+            <input id="searchHide" type="checkbox"/> Only show search hits in tree view
         </div>
         <div id="treeView" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;"></div>
         <div id="detail" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;">
@@ -125,11 +136,11 @@ Searches are case-insensitive.
 Note that this can be a challenging hierarchy to conceptualize because the
 cardinality of the parent:child relationship is many:many. For example, the
 <i>General Lab</i> event_set node (11199037) has at least 5 different parents.
-The generalized hierarchy currently contains about 350,000 different paths
-between the root and leaf nodes. This is reduced to about 300,000 if
-primary_mnemonic nodes are not considered (the inclusion of primary_mnemonic
-nodes in the hierarchy is contrived, but was convenient for a first
-implementation). Many of these paths are not related to the laboratory.
+The generalized hierarchy currently contains about 350,000 nodes. This is
+reduced to about 300,000 if primary_mnemonic nodes are not considered (the
+inclusion of primary_mnemonic nodes in the hierarchy is contrived, but is
+convenient for a first implementation). Many of these nodes are not related to
+the laboratory.
 </p>
 
 <p>
