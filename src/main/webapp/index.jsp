@@ -30,18 +30,32 @@ function setNodeSearchState() {
         var node = $('#treeView').jstree().get_node(this.id);
         if(this.id in searchResultMap) {
             node.li_attr['style'] = 'font-weight: bold;';
-            $('#treeView').jstree('set_text', node, node.original.text + " (" + searchResultMap[this.id] + ")");
+            if($('#searchShowCounts').is(':checked')) {
+                $('#treeView').jstree('set_text', node, node.original.text + " (" + searchResultMap[this.id][0] + "<sub>S</sub> " + searchResultMap[this.id][1] + "<sub>C</sub> " + searchResultMap[this.id][2] + "<sub>D</sub> " + searchResultMap[this.id][3] + "<sub>M</sub>)");
+            }
+            else {
+                $('#treeView').jstree('set_text', node, node.original.text);
+            }
             $('#treeView').jstree('show_node', node);
         }
         else {
             node.li_attr['style'] = 'font-weight : normal;';
             $('#treeView').jstree('set_text', node, node.original.text);
-            if($('#searchHide').is(':checked')) {
-                $('#treeView').jstree('hide_node', node);
-            }
-            else {
-                $('#treeView').jstree('show_node', node);
-            }
+            $('#treeView').jstree($('#searchPrune').is(':checked') ? 'hide_node' : 'show_node', node);
+        }
+    });
+}
+
+function showEntity(entityName, id) {
+    $.ajax({
+        'url' : '/eshViewer/webresources/' + entityName + "/" + id,
+        'success' : function(result) {
+            var html  = '<div style="border: 1px solid black; margin: 5px; background-color: lightgray;">';
+            html     += entityName;
+            html     += '<pre>' + JSON.stringify(result, null, "\t") + '</pre>';
+            html     += '</div>';
+            $('#detail').append(html);
+            $('#detail').scrollTop($('#detail')[0].scrollHeight - $('#detail')[0].clientHeight);
         }
     });
 }
@@ -78,7 +92,11 @@ $(document).ready(function() {
         });
     });
 
-    $('#searchHide').on('click', function() {
+    $('#searchPrune').on('click', function() {
+        setNodeSearchState();
+    });
+
+    $('#searchShowCounts').on('click', function() {
         setNodeSearchState();
     });
 
@@ -93,7 +111,26 @@ $(document).ready(function() {
     });
 
     $('#treeView').on('select_node.jstree', function (node, selected, event) {
-        $('#detail').append('<pre style="border: 1px solid black; margin: 5px; background-color: lightgray;">' + JSON.stringify(selected.node.original, null, "\t") + '</pre>');
+        var html  = '<div style="border: 1px solid black; margin: 5px; background-color: lightgray;">';
+        html     += 'NormalizedHierarchyNode';
+        html     += '<pre>' + JSON.stringify(selected.node.original, null, "\t") + '</pre>';
+        if(selected.node.original.nodeType === 'event_set') {
+            html += 'related:';
+            html += '[<a href="javascript:{showEntity(\'V500EventSetCode\', \'' + selected.node.original.cd + '\');}">V500EventSetCode</a>]';
+            html += '[<a href="javascript:{showEntity(\'V500EventSetCanon\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">V500EventSetCanon</a>]';
+        }
+        else if(selected.node.original.nodeType === 'event_code') {
+            html += 'related:';
+            html += '[<a href="javascript:{showEntity(\'V500EventCode\', \'' + selected.node.original.cd + '\');}">V500EventCode</a>]';
+            html += '[<a href="javascript:{showEntity(\'V500EventSetExplode\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">V500EventSetExplode</a>]';
+        }
+        else if(selected.node.original.nodeType === 'discrete_task_assay') {
+            html += 'related:';
+            html += '[<a href="javascript:{showEntity(\'DiscreteTaskAssay\', \'' + selected.node.original.cd + '\');}">DiscreteTaskAssay</a>]';
+            html += '[<a href="javascript:{showEntity(\'CodeValueEventR\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">CodeValueEventR</a>]';
+        }
+        html     += '<br/><br/></div>';
+        $('#detail').append(html);
         $('#detail').scrollTop($('#detail')[0].scrollHeight - $('#detail')[0].clientHeight);
     });
 
@@ -107,11 +144,12 @@ $(document).ready(function() {
         
         <div id="header" style="width: 96%; padding-bottom: 5px;">
             <p style="font-size: small;">
-                ESH Viewer build 20171214 (PRD V500 schema replicate 20171115)<br/>
+                ESH Viewer build 20171215 (PRD V500 schema replicate 20171115)<br/>
                 <a href="http://github.com/ghsmith/eshViewer">http://github.com/ghsmith/eshViewer</a>
             </p>
             <input id="searchText" type="text" size="60"/> <input id="searchButton" type="button" value="Search"><br/>
-            <input id="searchHide" type="checkbox"/> Only show search hits in tree view
+            <input id="searchShowCounts" type="checkbox"/> Show search hit counts<br/>
+            <input id="searchPrune" type="checkbox"/> Prune tree branches without search hits
         </div>
         <div id="treeView" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;"></div>
         <div id="detail" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;">

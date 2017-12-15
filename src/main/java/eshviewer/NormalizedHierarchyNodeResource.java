@@ -1,7 +1,6 @@
 package eshviewer;
 
 import eshviewer.data.NormalizedHierarchyNode;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,10 +24,19 @@ import org.hibernate.Transaction;
  *
  * @author ghsmith
  */
-@Path("/normalizedHierarchyNode")
+@Path("normalizedHierarchyNode")
 public class NormalizedHierarchyNodeResource {
 
     private static final Logger LOG = Logger.getLogger(NormalizedHierarchyNodeResource.class.getName());
+    
+    private static final Map<String, Integer> searchResultArrayKey = new HashMap<String, Integer>();
+
+    static {
+        searchResultArrayKey.put("event_set", 0);
+        searchResultArrayKey.put("event_code", 1);
+        searchResultArrayKey.put("discrete_task_assay", 2);
+        searchResultArrayKey.put("primary_mnemonic", 3);
+    }
 
     public static class JsTree {
         public String id;
@@ -91,10 +99,10 @@ public class NormalizedHierarchyNodeResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/searchResult")
-    public Map<String, Integer> getJsonSearchResult(@QueryParam("searchString") String searchString, @Context HttpServletResponse response) {
+    public Map<String, Integer[]> getJsonSearchResult(@QueryParam("searchString") String searchString, @Context HttpServletResponse response) {
         response.setHeader("Expires", "0");
         loadCache();
-        Map<String, Integer> searchResultMap = new HashMap();
+        Map<String, Integer[]> searchResultMap = new HashMap();
         search(rootNhn, searchString, searchResultMap);
         return searchResultMap;
     }
@@ -143,7 +151,7 @@ public class NormalizedHierarchyNodeResource {
         }
     }
     
-    private void search(NormalizedHierarchyNode nhn, String searchString, Map<String, Integer> searchResultMap) {
+    private void search(NormalizedHierarchyNode nhn, String searchString, Map<String, Integer[]> searchResultMap) {
         if(
             (nhn.getDisp() != null && nhn.getDisp().toUpperCase().contains(searchString.toUpperCase()))
             || (nhn.getCd() != null && nhn.getCd().toUpperCase().contains(searchString.toUpperCase()))
@@ -151,9 +159,9 @@ public class NormalizedHierarchyNodeResource {
             NormalizedHierarchyNode nhnWalker = nhn;
             while(nhnWalker != null) {
                 if(searchResultMap.get(nhnWalker.getId()) == null) {
-                    searchResultMap.put(nhnWalker.getId(), 0);
+                    searchResultMap.put(nhnWalker.getId(), new Integer[] {0, 0, 0, 0});
                 }
-                searchResultMap.put(nhnWalker.getId(), searchResultMap.get(nhnWalker.getId()).intValue() + 1);
+                searchResultMap.get(nhnWalker.getId())[searchResultArrayKey.get(nhn.getNodeType())]++;
                 nhnWalker = nhnWalker.getParent();
             }
         }

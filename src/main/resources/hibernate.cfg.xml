@@ -46,5 +46,17 @@ Contributor(s):
     <property name="hibernate.connection.datasource">java:/comp/env/jdbc/v500Ds</property>
     <property name="hibernate.show_sql">true</property>
     <mapping class="eshviewer.data.NormalizedHierarchyNode"/>
+    <mapping class="eshviewer.data.V500EventSetExplodeId"/>
+    <mapping class="eshviewer.data.ProfileTaskRId"/>
+    <mapping class="eshviewer.data.CodeValueEventR"/>
+    <mapping class="eshviewer.data.DiscreteTaskAssay"/>
+    <mapping class="eshviewer.data.V500EventSetCode"/>
+    <mapping class="eshviewer.data.V500EventSetCanon"/>
+    <mapping class="eshviewer.data.V500EventSetCanonId"/>
+    <mapping class="eshviewer.data.OrderCatalog"/>
+    <mapping class="eshviewer.data.CodeValueEventRId"/>
+    <mapping class="eshviewer.data.V500EventCode"/>
+    <mapping class="eshviewer.data.ProfileTaskR"/>
+    <mapping class="eshviewer.data.V500EventSetExplode"/>    
   </session-factory>
 </hibernate-configuration>

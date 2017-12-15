@@ -29,7 +29,13 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(eshviewer.CodeValueEventRResource.class);
+        resources.add(eshviewer.DiscreteTaskAssayResource.class);
         resources.add(eshviewer.NormalizedHierarchyNodeResource.class);
+        resources.add(eshviewer.V500EventCodeResource.class);
+        resources.add(eshviewer.V500EventSetCanonResource.class);
+        resources.add(eshviewer.V500EventSetCodeResource.class);
+        resources.add(eshviewer.V500EventSetExplodeResource.class);
     }
     
 }
