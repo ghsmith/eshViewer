@@ -111,7 +111,7 @@ $(document).ready(function() {
     });
 
     $('#treeView').on('select_node.jstree', function (node, selected, event) {
-        var html  = '<div style="border: 1px solid black; margin: 5px; background-color: lightgray;">';
+        var html  = '<div style="border: 1px solid black; margin: 5px; background-color: yellow;">';
         html     += 'NormalizedHierarchyNode';
         html     += '<pre>' + JSON.stringify(selected.node.original, null, "\t") + '</pre>';
         if(selected.node.original.nodeType === 'event_set') {
@@ -128,6 +128,10 @@ $(document).ready(function() {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'DiscreteTaskAssay\', \'' + selected.node.original.cd + '\');}">DiscreteTaskAssay</a>]';
             html += '[<a href="javascript:{showEntity(\'CodeValueEventR\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">CodeValueEventR</a>]';
+        }
+        else if(selected.node.original.nodeType === 'primary_mnemonic') {
+            html += 'related:';
+            html += '[<a href="javascript:{showEntity(\'OrderCatalog\', \'' + selected.node.original.cd + '\');}">OrderCatalog</a>]';
         }
         html     += '<br/><br/></div>';
         $('#detail').append(html);

@@ -7,7 +7,7 @@
         driverClassName="oracle.jdbc.OracleDriver"
         auth="Container"
         username="v500_read_all_user"
-        password="blueberry100Muffin"
+        password=""
         url="jdbc:oracle:thin:@cheech.pathology.emory.edu:49161:xe"
     />    
 </Context>

@@ -40,8 +40,8 @@ public class V500EventSetExplode  implements java.io.Serializable {
         @AttributeOverride(name="updtId", column=@Column(name="UPDT_ID", nullable=false, precision=22, scale=0) ), 
         @AttributeOverride(name="updtCnt", column=@Column(name="UPDT_CNT", nullable=false, precision=22, scale=0) ), 
         @AttributeOverride(name="updtApplctx", column=@Column(name="UPDT_APPLCTX", nullable=false, precision=22, scale=0) ), 
-        @AttributeOverride(name="eventSetLevel", column=@Column(name="EVENT_SET_LEVEL", precision=22, scale=0) ), 
-        @AttributeOverride(name="lastUtcTs", column=@Column(name="LAST_UTC_TS") ) } )
+        @AttributeOverride(name="eventSetLevel", column=@Column(name="EVENT_SET_LEVEL", precision=22, scale=0) )/*, 
+        @AttributeOverride(name="lastUtcTs", column=@Column(name="LAST_UTC_TS") )*/ } )
     public V500EventSetExplodeId getId() {
         return this.id;
     }

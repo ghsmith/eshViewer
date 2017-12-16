@@ -45,8 +45,8 @@ public class CodeValueEventR  implements java.io.Serializable {
         @AttributeOverride(name="updtId", column=@Column(name="UPDT_ID", nullable=false, precision=126, scale=0) ), 
         @AttributeOverride(name="updtTask", column=@Column(name="UPDT_TASK", nullable=false, precision=22, scale=0) ), 
         @AttributeOverride(name="updtCnt", column=@Column(name="UPDT_CNT", nullable=false, precision=22, scale=0) ), 
-        @AttributeOverride(name="updtApplctx", column=@Column(name="UPDT_APPLCTX", nullable=false, precision=22, scale=0) ), 
-        @AttributeOverride(name="lastUtcTs", column=@Column(name="LAST_UTC_TS") ) } )
+        @AttributeOverride(name="updtApplctx", column=@Column(name="UPDT_APPLCTX", nullable=false, precision=22, scale=0) )/*, 
+        @AttributeOverride(name="lastUtcTs", column=@Column(name="LAST_UTC_TS") )*/ } )
     public CodeValueEventRId getId() {
         return this.id;
     }

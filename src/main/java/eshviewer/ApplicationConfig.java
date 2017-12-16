@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(eshviewer.CodeValueEventRResource.class);
         resources.add(eshviewer.DiscreteTaskAssayResource.class);
         resources.add(eshviewer.NormalizedHierarchyNodeResource.class);
+        resources.add(eshviewer.OrderCatalogResource.class);
         resources.add(eshviewer.V500EventCodeResource.class);
         resources.add(eshviewer.V500EventSetCanonResource.class);
         resources.add(eshviewer.V500EventSetCodeResource.class);
