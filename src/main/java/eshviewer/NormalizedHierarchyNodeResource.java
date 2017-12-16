@@ -99,11 +99,11 @@ public class NormalizedHierarchyNodeResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/searchResult")
-    public Map<String, Integer[]> getJsonSearchResult(@QueryParam("searchString") String searchString, @Context HttpServletResponse response) {
+    public Map<String, Integer[]> getJsonSearchResult(@QueryParam("searchString") String searchString, @QueryParam("searchScopeString") String searchScopeString, @Context HttpServletResponse response) {
         response.setHeader("Expires", "0");
         loadCache();
         Map<String, Integer[]> searchResultMap = new HashMap();
-        search(rootNhn, searchString, searchResultMap);
+        search(rootNhn, searchString, searchScopeString, searchResultMap);
         return searchResultMap;
     }
 
@@ -151,23 +151,30 @@ public class NormalizedHierarchyNodeResource {
         }
     }
     
-    private void search(NormalizedHierarchyNode nhn, String searchString, Map<String, Integer[]> searchResultMap) {
+    private void search(NormalizedHierarchyNode nhn, String searchString, String searchScopeString, Map<String, Integer[]> searchResultMap) {
         if(
-            (nhn.getDisp() != null && nhn.getDisp().toUpperCase().contains(searchString.toUpperCase()))
-            || (nhn.getCd() != null && nhn.getCd().toUpperCase().contains(searchString.toUpperCase()))
+            ("event_set".equals(nhn.getNodeType()) && searchScopeString.contains("S"))
+            || ("event_code".equals(nhn.getNodeType()) && searchScopeString.contains("C"))
+            || ("discrete_task_assay".equals(nhn.getNodeType()) && searchScopeString.contains("D"))
+            || ("primary_mnemonic".equals(nhn.getNodeType()) && searchScopeString.contains("M"))
         ) {
-            NormalizedHierarchyNode nhnWalker = nhn;
-            while(nhnWalker != null) {
-                if(searchResultMap.get(nhnWalker.getId()) == null) {
-                    searchResultMap.put(nhnWalker.getId(), new Integer[] {0, 0, 0, 0});
+            if(
+                (nhn.getDisp() != null && nhn.getDisp().toUpperCase().contains(searchString.toUpperCase()))
+                || (nhn.getCd() != null && nhn.getCd().toUpperCase().contains(searchString.toUpperCase()))
+            ) {
+                NormalizedHierarchyNode nhnWalker = nhn;
+                while(nhnWalker != null) {
+                    if(searchResultMap.get(nhnWalker.getId()) == null) {
+                        searchResultMap.put(nhnWalker.getId(), new Integer[] {0, 0, 0, 0});
+                    }
+                    searchResultMap.get(nhnWalker.getId())[searchResultArrayKey.get(nhn.getNodeType())]++;
+                    nhnWalker = nhnWalker.getParent();
                 }
-                searchResultMap.get(nhnWalker.getId())[searchResultArrayKey.get(nhn.getNodeType())]++;
-                nhnWalker = nhnWalker.getParent();
             }
         }
         if(nhn.getChildren() != null) {
             for(NormalizedHierarchyNode childNhn : nhn.getChildren()) {
-                search(childNhn, searchString, searchResultMap);
+                search(childNhn, searchString, searchScopeString, searchResultMap);
             }
         }
         return;

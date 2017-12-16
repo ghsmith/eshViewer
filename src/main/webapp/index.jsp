@@ -83,8 +83,12 @@ $(document).ready(function() {
     });
 
     $('#searchButton').on('click', function() {
+        var searchScopeString;
+        $('#searchScope:checked').each(function(index, value) {
+           searchScopeString += $(value).val();
+        });
         $.ajax({
-            'url' : '/eshViewer/webresources/normalizedHierarchyNode/searchResult?searchString=' + $('#searchText').val(),
+            'url' : '/eshViewer/webresources/normalizedHierarchyNode/searchResult?searchString=' + $('#searchText').val() + '&searchScopeString=' + searchScopeString,
             'success' : function(result) {
                 searchResultMap = result;
                 setNodeSearchState();
@@ -151,9 +155,13 @@ $(document).ready(function() {
                 ESH Viewer build 20171215 (PRD V500 schema replicate 20171115)<br/>
                 <a href="http://github.com/ghsmith/eshViewer">http://github.com/ghsmith/eshViewer</a>
             </p>
-            <input id="searchText" type="text" size="60"/> <input id="searchButton" type="button" value="Search"><br/>
-            <input id="searchShowCounts" type="checkbox"/> Show search hit counts<br/>
-            <input id="searchPrune" type="checkbox"/> Prune tree branches without search hits
+            Search scope: <input id="searchScope" type="checkbox" value="S" checked="true"/> event_set
+                          <input id="searchScope" type="checkbox" value="C" checked="true"/> event_code
+                          <input id="searchScope" type="checkbox" value="D" checked="true"/> discrete_task_assay
+                          <input id="searchScope" type="checkbox" value="M" checked="true"/> primary_mnemonic<br/>
+            Options: <input id="searchShowCounts" type="checkbox" checked="true"/> Show search hit counts
+                     <input id="searchPrune" type="checkbox"/> Prune tree branches without search hits<br/>
+            <input id="searchText" type="text" size="60"/> <input id="searchButton" type="button" value="Search">
         </div>
         <div id="treeView" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;"></div>
         <div id="detail" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;">
