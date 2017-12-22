@@ -103,7 +103,9 @@ public class NormalizedHierarchyNodeResource {
         response.setHeader("Expires", "0");
         loadCache();
         Map<String, Integer[]> searchResultMap = new HashMap();
-        search(rootNhn, searchString, searchScopeString, searchResultMap);
+        for(String searchStringParsed : (searchString.split(("\\|")))) {
+            search(rootNhn, searchStringParsed.trim(), searchScopeString, searchResultMap);
+        }
         return searchResultMap;
     }
 

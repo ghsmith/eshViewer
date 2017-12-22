@@ -83,12 +83,12 @@ $(document).ready(function() {
     });
 
     $('#searchButton').on('click', function() {
-        var searchScopeString;
+        var searchScopeString = '';
         $('#searchScope:checked').each(function(index, value) {
            searchScopeString += $(value).val();
         });
         $.ajax({
-            'url' : '/eshViewer/webresources/normalizedHierarchyNode/searchResult?searchString=' + $('#searchText').val() + '&searchScopeString=' + searchScopeString,
+            'url' : '/eshViewer/webresources/normalizedHierarchyNode/searchResult?searchString=' + encodeURIComponent($('#searchText').val()) + '&searchScopeString=' + searchScopeString,
             'success' : function(result) {
                 searchResultMap = result;
                 setNodeSearchState();
