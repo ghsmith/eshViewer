@@ -260,7 +260,7 @@ public class NormalizedHierarchyNodeResource {
 + "          oc.catalog_cd event_set_cd, "
 + "          ptr.task_assay_cd parent_event_set_cd, "
 + "          0 event_set_collating_seq, "
-+ "          oc.primary_mnemonic event_set_cd_disp "
++ "          oc.primary_mnemonic || decode(ptr.active_ind, 0, ' (active_ind=0 for this DTA)') event_set_cd_disp "
 + "        from "
 + "          profile_task_r ptr, "
 + "          order_catalog oc "
