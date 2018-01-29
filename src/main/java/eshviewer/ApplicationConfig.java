@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(eshviewer.CodeValueEventRResource.class);
         resources.add(eshviewer.DiscreteTaskAssayResource.class);
+        resources.add(eshviewer.JerseyMapperProvider.class);
         resources.add(eshviewer.NormalizedHierarchyNodeResource.class);
         resources.add(eshviewer.OrderCatalogResource.class);
         resources.add(eshviewer.OrderCatalogSynonymResource.class);

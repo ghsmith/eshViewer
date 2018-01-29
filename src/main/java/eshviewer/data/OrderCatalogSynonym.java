@@ -29,22 +29,22 @@ public class OrderCatalogSynonym  implements java.io.Serializable {
 
      private BigDecimal synonymId;
      private OrderCatalog orderCatalog;
-     private BigDecimal catalogTypeCd;
+     private CodeValue catalogTypeCd;
      private String mnemonic;
      private String mnemonicKeyCap;
-     private BigDecimal mnemonicTypeCd;
+     private CodeValue mnemonicTypeCd;
      private BigDecimal oeFormatId;
      private BigDecimal orderSentenceId;
      private BigDecimal activeInd;
-     private BigDecimal activityTypeCd;
+     private CodeValue activityTypeCd;
      private BigDecimal updtApplctx;
      private BigDecimal updtCnt;
      private Date updtDtTm;
      private BigDecimal updtId;
      private BigDecimal updtTask;
-     private BigDecimal activitySubtypeCd;
+     private CodeValue activitySubtypeCd;
      private BigDecimal orderableTypeFlag;
-     private BigDecimal activeStatusCd;
+     private CodeValue activeStatusCd;
      private Date activeStatusDtTm;
      private BigDecimal activeStatusPrsnlId;
      private BigDecimal refTextMask;
@@ -89,90 +89,6 @@ public class OrderCatalogSynonym  implements java.io.Serializable {
     }
 
 	
-    public OrderCatalogSynonym(BigDecimal synonymId, OrderCatalog orderCatalog, BigDecimal catalogTypeCd, BigDecimal mnemonicTypeCd, BigDecimal oeFormatId, BigDecimal orderSentenceId, BigDecimal activityTypeCd, BigDecimal updtApplctx, BigDecimal updtCnt, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal activitySubtypeCd, BigDecimal activeStatusCd, BigDecimal activeStatusPrsnlId, BigDecimal csIndexCd, BigDecimal dcpClinCatCd, BigDecimal itemId, BigDecimal concentrationStrengthUnitCd, BigDecimal concentrationVolumeUnitCd, BigDecimal templateMnemonicFlag, BigDecimal ingredientRateConversionInd, BigDecimal witnessFlag) {
-        this.synonymId = synonymId;
-        this.orderCatalog = orderCatalog;
-        this.catalogTypeCd = catalogTypeCd;
-        this.mnemonicTypeCd = mnemonicTypeCd;
-        this.oeFormatId = oeFormatId;
-        this.orderSentenceId = orderSentenceId;
-        this.activityTypeCd = activityTypeCd;
-        this.updtApplctx = updtApplctx;
-        this.updtCnt = updtCnt;
-        this.updtDtTm = updtDtTm;
-        this.updtId = updtId;
-        this.updtTask = updtTask;
-        this.activitySubtypeCd = activitySubtypeCd;
-        this.activeStatusCd = activeStatusCd;
-        this.activeStatusPrsnlId = activeStatusPrsnlId;
-        this.csIndexCd = csIndexCd;
-        this.dcpClinCatCd = dcpClinCatCd;
-        this.itemId = itemId;
-        this.concentrationStrengthUnitCd = concentrationStrengthUnitCd;
-        this.concentrationVolumeUnitCd = concentrationVolumeUnitCd;
-        this.templateMnemonicFlag = templateMnemonicFlag;
-        this.ingredientRateConversionInd = ingredientRateConversionInd;
-        this.witnessFlag = witnessFlag;
-    }
-    public OrderCatalogSynonym(BigDecimal synonymId, OrderCatalog orderCatalog, BigDecimal catalogTypeCd, String mnemonic, String mnemonicKeyCap, BigDecimal mnemonicTypeCd, BigDecimal oeFormatId, BigDecimal orderSentenceId, BigDecimal activeInd, BigDecimal activityTypeCd, BigDecimal updtApplctx, BigDecimal updtCnt, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal activitySubtypeCd, BigDecimal orderableTypeFlag, BigDecimal activeStatusCd, Date activeStatusDtTm, BigDecimal activeStatusPrsnlId, BigDecimal refTextMask, BigDecimal csIndexCd, BigDecimal multipleOrdSentInd, BigDecimal hideFlag, BigDecimal rxMask, BigDecimal dcpClinCatCd, BigDecimal filteredOdInd, BigDecimal itemId, String cki, String mnemonicKeyCapNls, String virtualView, String healthPlanView, String conceptCki, Double concentrationStrength, BigDecimal concentrationStrengthUnitCd, Double concentrationVolume, BigDecimal concentrationVolumeUnitCd, BigDecimal templateMnemonicFlag, BigDecimal ingredientRateConversionInd, BigDecimal witnessFlag, BigDecimal highAlertLongTextId, BigDecimal highAlertInd, BigDecimal highAlertRequiredNtfyInd, BigDecimal roundingRuleCd, BigDecimal medIntervalWarnFlag, BigDecimal lastAdminDispBasisFlag, BigDecimal displayAdditivesFirstInd, String mnemonicKeyCapANls, BigDecimal intermittentInd, BigDecimal ignoreHideConvertInd, BigDecimal lockTargetDoseInd, BigDecimal autoprogSynInd, Double maxFinalDose, BigDecimal preferredDoseFlag, BigDecimal maxDoseCalcBsaValue, BigDecimal maxFinalDoseUnitCd, Date lastUtcTs) {
-       this.synonymId = synonymId;
-       this.orderCatalog = orderCatalog;
-       this.catalogTypeCd = catalogTypeCd;
-       this.mnemonic = mnemonic;
-       this.mnemonicKeyCap = mnemonicKeyCap;
-       this.mnemonicTypeCd = mnemonicTypeCd;
-       this.oeFormatId = oeFormatId;
-       this.orderSentenceId = orderSentenceId;
-       this.activeInd = activeInd;
-       this.activityTypeCd = activityTypeCd;
-       this.updtApplctx = updtApplctx;
-       this.updtCnt = updtCnt;
-       this.updtDtTm = updtDtTm;
-       this.updtId = updtId;
-       this.updtTask = updtTask;
-       this.activitySubtypeCd = activitySubtypeCd;
-       this.orderableTypeFlag = orderableTypeFlag;
-       this.activeStatusCd = activeStatusCd;
-       this.activeStatusDtTm = activeStatusDtTm;
-       this.activeStatusPrsnlId = activeStatusPrsnlId;
-       this.refTextMask = refTextMask;
-       this.csIndexCd = csIndexCd;
-       this.multipleOrdSentInd = multipleOrdSentInd;
-       this.hideFlag = hideFlag;
-       this.rxMask = rxMask;
-       this.dcpClinCatCd = dcpClinCatCd;
-       this.filteredOdInd = filteredOdInd;
-       this.itemId = itemId;
-       this.cki = cki;
-       this.mnemonicKeyCapNls = mnemonicKeyCapNls;
-       this.virtualView = virtualView;
-       this.healthPlanView = healthPlanView;
-       this.conceptCki = conceptCki;
-       this.concentrationStrength = concentrationStrength;
-       this.concentrationStrengthUnitCd = concentrationStrengthUnitCd;
-       this.concentrationVolume = concentrationVolume;
-       this.concentrationVolumeUnitCd = concentrationVolumeUnitCd;
-       this.templateMnemonicFlag = templateMnemonicFlag;
-       this.ingredientRateConversionInd = ingredientRateConversionInd;
-       this.witnessFlag = witnessFlag;
-       this.highAlertLongTextId = highAlertLongTextId;
-       this.highAlertInd = highAlertInd;
-       this.highAlertRequiredNtfyInd = highAlertRequiredNtfyInd;
-       this.roundingRuleCd = roundingRuleCd;
-       this.medIntervalWarnFlag = medIntervalWarnFlag;
-       this.lastAdminDispBasisFlag = lastAdminDispBasisFlag;
-       this.displayAdditivesFirstInd = displayAdditivesFirstInd;
-       this.mnemonicKeyCapANls = mnemonicKeyCapANls;
-       this.intermittentInd = intermittentInd;
-       this.ignoreHideConvertInd = ignoreHideConvertInd;
-       this.lockTargetDoseInd = lockTargetDoseInd;
-       this.autoprogSynInd = autoprogSynInd;
-       this.maxFinalDose = maxFinalDose;
-       this.preferredDoseFlag = preferredDoseFlag;
-       this.maxDoseCalcBsaValue = maxDoseCalcBsaValue;
-       this.maxFinalDoseUnitCd = maxFinalDoseUnitCd;
-       this.lastUtcTs = lastUtcTs;
-    }
    
      @Id 
 
@@ -198,12 +114,13 @@ public class OrderCatalogSynonym  implements java.io.Serializable {
     }
 
     
-    @Column(name="CATALOG_TYPE_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getCatalogTypeCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="CATALOG_TYPE_CD")
+    public CodeValue getCatalogTypeCd() {
         return this.catalogTypeCd;
     }
     
-    public void setCatalogTypeCd(BigDecimal catalogTypeCd) {
+    public void setCatalogTypeCd(CodeValue catalogTypeCd) {
         this.catalogTypeCd = catalogTypeCd;
     }
 
@@ -228,12 +145,13 @@ public class OrderCatalogSynonym  implements java.io.Serializable {
     }
 
     
-    @Column(name="MNEMONIC_TYPE_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getMnemonicTypeCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="MNEMONIC_TYPE_CD")
+    public CodeValue getMnemonicTypeCd() {
         return this.mnemonicTypeCd;
     }
     
-    public void setMnemonicTypeCd(BigDecimal mnemonicTypeCd) {
+    public void setMnemonicTypeCd(CodeValue mnemonicTypeCd) {
         this.mnemonicTypeCd = mnemonicTypeCd;
     }
 
@@ -268,12 +186,13 @@ public class OrderCatalogSynonym  implements java.io.Serializable {
     }
 
     
-    @Column(name="ACTIVITY_TYPE_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getActivityTypeCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="ACTIVITY_TYPE_CD")
+    public CodeValue getActivityTypeCd() {
         return this.activityTypeCd;
     }
     
-    public void setActivityTypeCd(BigDecimal activityTypeCd) {
+    public void setActivityTypeCd(CodeValue activityTypeCd) {
         this.activityTypeCd = activityTypeCd;
     }
 
@@ -328,12 +247,13 @@ public class OrderCatalogSynonym  implements java.io.Serializable {
     }
 
     
-    @Column(name="ACTIVITY_SUBTYPE_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getActivitySubtypeCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="ACTIVITY_SUBTYPE_CD")
+    public CodeValue getActivitySubtypeCd() {
         return this.activitySubtypeCd;
     }
     
-    public void setActivitySubtypeCd(BigDecimal activitySubtypeCd) {
+    public void setActivitySubtypeCd(CodeValue activitySubtypeCd) {
         this.activitySubtypeCd = activitySubtypeCd;
     }
 
@@ -348,12 +268,13 @@ public class OrderCatalogSynonym  implements java.io.Serializable {
     }
 
     
-    @Column(name="ACTIVE_STATUS_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getActiveStatusCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="ACTIVE_STATUS_CD")
+    public CodeValue getActiveStatusCd() {
         return this.activeStatusCd;
     }
     
-    public void setActiveStatusCd(BigDecimal activeStatusCd) {
+    public void setActiveStatusCd(CodeValue activeStatusCd) {
         this.activeStatusCd = activeStatusCd;
     }
 
