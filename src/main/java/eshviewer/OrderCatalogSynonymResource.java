@@ -1,6 +1,6 @@
 package eshviewer;
 
-import eshviewer.data.OrderCatalog;
+import eshviewer.data.OrderCatalogSynonym;
 import java.math.BigDecimal;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Produces;
@@ -16,17 +16,17 @@ import org.hibernate.Session;
  *
  * @author ghsmith
  */
-@Path("OrderCatalog")
-public class OrderCatalogResource {
+@Path("OrderCatalogSynonym")
+public class OrderCatalogSynonymResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public OrderCatalog getJson(@PathParam("id") BigDecimal id, @Context HttpServletResponse response) {
+    public OrderCatalogSynonym getJson(@PathParam("id") BigDecimal id, @Context HttpServletResponse response) {
         response.setHeader("Expires", "0");
         Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
-        OrderCatalog orderCatalog = sess.get(OrderCatalog.class, id);
-        return orderCatalog;
+        OrderCatalogSynonym orderCatalogSynonym = sess.get(OrderCatalogSynonym.class, id);
+        return orderCatalogSynonym;
     }
 
 }

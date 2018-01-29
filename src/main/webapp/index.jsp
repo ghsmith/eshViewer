@@ -31,7 +31,7 @@ function setNodeSearchState() {
         if(this.id in searchResultMap) {
             node.li_attr['style'] = 'font-weight: bold;';
             if($('#searchShowCounts').is(':checked')) {
-                $('#treeView').jstree('set_text', node, node.original.text + " (" + searchResultMap[this.id][0] + "<sub>S</sub> " + searchResultMap[this.id][1] + "<sub>C</sub> " + searchResultMap[this.id][2] + "<sub>D</sub> " + searchResultMap[this.id][3] + "<sub>M</sub>)");
+                $('#treeView').jstree('set_text', node, node.original.text + " (" + searchResultMap[this.id][0] + "<sub>S</sub> " + searchResultMap[this.id][1] + "<sub>C</sub> " + searchResultMap[this.id][2] + "<sub>D</sub> " + searchResultMap[this.id][3] + "<sub>M</sub> " + searchResultMap[this.id][4] + "<sub>Y</sub>)");
             }
             else {
                 $('#treeView').jstree('set_text', node, node.original.text);
@@ -137,6 +137,10 @@ $(document).ready(function() {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'OrderCatalog\', \'' + selected.node.original.cd + '\');}">OrderCatalog</a>]';
         }
+        else if(selected.node.original.nodeType === 'synonym') {
+            html += 'related:';
+            html += '[<a href="javascript:{showEntity(\'OrderCatalogSynonym\', \'' + selected.node.original.cd + '\');}">OrderCatalogSynonym</a>]';
+        }
         html     += '<br/><br/></div>';
         $('#detail').append(html);
         $('#detail').scrollTop($('#detail')[0].scrollHeight - $('#detail')[0].clientHeight);
@@ -152,13 +156,14 @@ $(document).ready(function() {
         
         <div id="header" style="width: 96%; padding-bottom: 5px;">
             <p style="font-size: small;">
-                ESH Viewer build 20171229 (PRD V500 schema replicate 20171115)<br/>
+                ESH Viewer build 20180129 (PRD V500 schema replicate 20180129)<br/>
                 <a href="http://github.com/ghsmith/eshViewer">http://github.com/ghsmith/eshViewer</a>
             </p>
             Search scope: <input id="searchScope" type="checkbox" value="S" checked="true"/> event_set
                           <input id="searchScope" type="checkbox" value="C" checked="true"/> event_code
                           <input id="searchScope" type="checkbox" value="D" checked="true"/> discrete_task_assay
-                          <input id="searchScope" type="checkbox" value="M" checked="true"/> primary_mnemonic<br/>
+                          <input id="searchScope" type="checkbox" value="M" checked="true"/> primary_mnemonic
+                          <input id="searchScope" type="checkbox" value="Y" checked="true"/> synonym<br/>
             Options: <input id="searchShowCounts" type="checkbox" checked="true"/> Show search hit counts
                      <input id="searchPrune" type="checkbox"/> Prune tree branches without search hits<br/>
             <input id="searchText" type="text" size="60"/> <input id="searchButton" type="button" value="Search">
@@ -186,11 +191,11 @@ Searches are case-insensitive.
 Note that this can be a challenging hierarchy to conceptualize because the
 cardinality of the parent:child relationship is many:many. For example, the
 <i>General Lab</i> event_set node (11199037) has at least 5 different parents.
-The generalized hierarchy currently contains about 350,000 nodes. This is
-reduced to about 300,000 if primary_mnemonic nodes are not considered (the
-inclusion of primary_mnemonic nodes in the hierarchy is contrived, but is
-convenient for a first implementation). Many of these nodes are not related to
-the laboratory.
+The generalized hierarchy currently contains about 600,000 nodes. This is
+reduced to about 300,000 if primary_mnemonic and synonym nodes are not
+considered (the inclusion of primary_mnemonic and synonym nodes in the hierarchy
+is contrived, but is convenient for a first implementation). Many of these nodes
+are not related to the laboratory.
 </p>
 
 <p>
@@ -200,6 +205,7 @@ Legend:
         <li>[C] = event_code node</li>
         <li>[D] = discrete_task_assay node</li>
         <li>[M] = primary_mnemonic node (order)</li>
+        <li>[Y] = synonym (alternate name for an order)</li>
         <li>(#) = count of search hits for node (recursively evaluated)</li>
     </ul>
 </p>

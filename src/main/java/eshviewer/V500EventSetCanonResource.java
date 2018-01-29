@@ -11,7 +11,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * REST Web Service
@@ -28,7 +27,6 @@ public class V500EventSetCanonResource {
     public List<V500EventSetCanon> getJson(@PathParam("id") BigDecimal id, @PathParam("parentId") BigDecimal parentId, @Context HttpServletResponse response) {
         response.setHeader("Expires", "0");
         Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = sess.beginTransaction();
         List<V500EventSetCanon> v500EventSetCanonList = sess.createQuery(
             "from V500EventSetCanon where event_set_cd = :event_set_cd and parent_event_set_cd = :parent_event_set_cd",
             V500EventSetCanon.class
@@ -36,8 +34,6 @@ public class V500EventSetCanonResource {
             .setParameter("event_set_cd", id)
             .setParameter("parent_event_set_cd", parentId)
             .list();
-        tx.commit();
-        sess.close();
         return v500EventSetCanonList;
     }
 

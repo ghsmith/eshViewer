@@ -11,7 +11,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * REST Web Service
@@ -27,11 +26,8 @@ public class DiscreteTaskAssayResource {
     public DiscreteTaskAssay getJson(@PathParam("id") BigDecimal id, @Context HttpServletResponse response) {
         response.setHeader("Expires", "0");
         Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = sess.beginTransaction();
         DiscreteTaskAssay discreteTaskAssay = sess.get(DiscreteTaskAssay.class, id);
         Hibernate.initialize(discreteTaskAssay.getProfileTaskRs());
-        tx.commit();
-        sess.close();
         return discreteTaskAssay;
     }
 

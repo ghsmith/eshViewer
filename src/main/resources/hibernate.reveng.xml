@@ -6,6 +6,7 @@
     <sql-type jdbc-type="OTHER" hibernate-type="java.sql.Timestamp" />
   </type-mapping>
   <table-filter match-name="ORDER_CATALOG"/>
+  <table-filter match-name="ORDER_CATALOG_SYNONYM"/>
   <table-filter match-name="PROFILE_TASK_R"/>
   <table-filter match-name="V500_EVENT_SET_CODE"/>
   <table-filter match-name="V500_EVENT_SET_CANON"/>

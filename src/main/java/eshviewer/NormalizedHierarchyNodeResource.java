@@ -17,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * REST Web Service
@@ -36,6 +35,7 @@ public class NormalizedHierarchyNodeResource {
         searchResultArrayKey.put("event_code", 1);
         searchResultArrayKey.put("discrete_task_assay", 2);
         searchResultArrayKey.put("primary_mnemonic", 3);
+        searchResultArrayKey.put("synonym", 4);
     }
 
     public static class JsTree {
@@ -84,6 +84,9 @@ public class NormalizedHierarchyNodeResource {
             else if("primary_mnemonic".equals(nhn.getNodeType())) {
                 jsTree.text = "[M] " + nhn.getDisp();
             }
+            else if("synonym".equals(nhn.getNodeType())) {
+                jsTree.text = "[Y] " + nhn.getDisp();
+            }
             else {
                 jsTree.text = "[?] " + nhn.getDisp();
             }
@@ -111,45 +114,43 @@ public class NormalizedHierarchyNodeResource {
 
     private static Boolean cached = false;
     private static NormalizedHierarchyNode rootNhn;
-    private static Map<String, NormalizedHierarchyNode> nhnMapById = null;
+    private static final Map<String, NormalizedHierarchyNode> nhnMapById = new HashMap<String, NormalizedHierarchyNode>();
     
-    private synchronized void loadCache() {
-        if(!cached) {
-            Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction tx = sess.beginTransaction();
-            nhnMapById = new HashMap<String, NormalizedHierarchyNode>();
-            rootNhn = (NormalizedHierarchyNode)sess.createSQLQuery(
-                "select x.* from (" + rootQuery + ") x"
-            )
-                .addEntity(NormalizedHierarchyNode.class)
-                .uniqueResult();
-            nhnMapById.put(rootNhn.getId(), rootNhn);
-            ScrollableResults results = sess.createSQLQuery(
-                "select x.* from (" + hierarchicalQuery + ") x"
-            )
-                .addEntity(NormalizedHierarchyNode.class)
-                .setFetchSize(25000)
-                .scroll(ScrollMode.FORWARD_ONLY);
-            int x = 0;
-            while(results.next()) {
-                NormalizedHierarchyNode nhn = (NormalizedHierarchyNode)results.get()[0];
-                nhnMapById.put(nhn.getId(), nhn);
-                NormalizedHierarchyNode parentNhn = nhnMapById.get(nhn.getParentId());
-                if(parentNhn != null) {
-                    nhn.setParent(parentNhn);
-                    if(parentNhn.getChildren() == null) {
-                        parentNhn.setChildren(new ArrayList());
+    private void loadCache() {
+        synchronized(nhnMapById) {
+            if(!cached) {
+                Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+                rootNhn = (NormalizedHierarchyNode)sess.createSQLQuery(
+                    "select x.* from (" + rootQuery + ") x"
+                )
+                    .addEntity(NormalizedHierarchyNode.class)
+                    .uniqueResult();
+                nhnMapById.put(rootNhn.getId(), rootNhn);
+                ScrollableResults results = sess.createSQLQuery(
+                    "select x.* from (" + hierarchicalQuery + ") x"
+                )
+                    .addEntity(NormalizedHierarchyNode.class)
+                    .setFetchSize(25000)
+                    .scroll(ScrollMode.FORWARD_ONLY);
+                int x = 0;
+                while(results.next()) {
+                    NormalizedHierarchyNode nhn = (NormalizedHierarchyNode)results.get()[0];
+                    nhnMapById.put(nhn.getId(), nhn);
+                    NormalizedHierarchyNode parentNhn = nhnMapById.get(nhn.getParentId());
+                    if(parentNhn != null) {
+                        nhn.setParent(parentNhn);
+                        if(parentNhn.getChildren() == null) {
+                            parentNhn.setChildren(new ArrayList());
+                        }
+                        parentNhn.getChildren().add(nhn);
                     }
-                    parentNhn.getChildren().add(nhn);
+                    x++;
+                    if(x % 5000 == 0) {
+                        LOG.info(x + " rows cached");
+                    }
                 }
-                x++;
-                if(x % 5000 == 0) {
-                    LOG.info(x + " rows cached");
-                }
+                cached = true;
             }
-            tx.commit();
-            sess.close();
-            cached = true;
         }
     }
     
@@ -159,6 +160,7 @@ public class NormalizedHierarchyNodeResource {
             || ("event_code".equals(nhn.getNodeType()) && searchScopeString.contains("C"))
             || ("discrete_task_assay".equals(nhn.getNodeType()) && searchScopeString.contains("D"))
             || ("primary_mnemonic".equals(nhn.getNodeType()) && searchScopeString.contains("M"))
+            || ("synonym".equals(nhn.getNodeType()) && searchScopeString.contains("Y"))
         ) {
             if(
                 (nhn.getDisp() != null && nhn.getDisp().toUpperCase().contains(searchString.toUpperCase()))
@@ -167,7 +169,7 @@ public class NormalizedHierarchyNodeResource {
                 NormalizedHierarchyNode nhnWalker = nhn;
                 while(nhnWalker != null) {
                     if(searchResultMap.get(nhnWalker.getId()) == null) {
-                        searchResultMap.put(nhnWalker.getId(), new Integer[] {0, 0, 0, 0});
+                        searchResultMap.put(nhnWalker.getId(), new Integer[] {0, 0, 0, 0, 0});
                     }
                     searchResultMap.get(nhnWalker.getId())[searchResultArrayKey.get(nhn.getNodeType())]++;
                     nhnWalker = nhnWalker.getParent();
@@ -254,18 +256,27 @@ public class NormalizedHierarchyNodeResource {
 + "        (select mnemonic from discrete_task_assay where task_assay_cd = cver.parent_cd) event_set_cd_disp "
 + "      from "
 + "        code_value_event_r cver "
-+ "      union all "
-+ "        select "
-+ "          'primary_mnemonic' hierarchy_node_type, "
-+ "          oc.catalog_cd event_set_cd, "
-+ "          ptr.task_assay_cd parent_event_set_cd, "
-+ "          0 event_set_collating_seq, "
-+ "          oc.primary_mnemonic || decode(ptr.active_ind, 0, ' (active_ind=0 for this DTA)') event_set_cd_disp "
-+ "        from "
-+ "          profile_task_r ptr, "
-+ "          order_catalog oc "
-+ "        where "
-+ "          ptr.catalog_cd = oc.catalog_cd "
++ "    union all "
++ "      select "
++ "        'primary_mnemonic' hierarchy_node_type, "
++ "        oc.catalog_cd event_set_cd, "
++ "        ptr.task_assay_cd parent_event_set_cd, "
++ "        0 event_set_collating_seq, "
++ "        oc.primary_mnemonic || decode(ptr.active_ind, 0, ' (active_ind=0 for this DTA)') event_set_cd_disp "
++ "      from "
++ "        profile_task_r ptr, "
++ "        order_catalog oc "
++ "      where "
++ "        ptr.catalog_cd = oc.catalog_cd "
++ "    union all "
++ "      select "
++ "        'synonym' hiearchy_node_type, "
++ "        ocs.synonym_id event_set_cd, "
++ "        ocs.catalog_cd parent_event_set_cd, "
++ "        0 event_set_collating_seq, "
++ "        ocs.mnemonic event_set_cd_disp "
++ "      from "
++ "        order_catalog_synonym ocs "
 + "  ) "
 + "  hier "
 + "start with "

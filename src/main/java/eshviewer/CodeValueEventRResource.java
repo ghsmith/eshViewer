@@ -11,7 +11,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * REST Web Service
@@ -28,7 +27,6 @@ public class CodeValueEventRResource {
     public List<CodeValueEventR> getJson(@PathParam("id") BigDecimal id, @PathParam("parentId") BigDecimal parentId, @Context HttpServletResponse response) {
         response.setHeader("Expires", "0");
         Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = sess.beginTransaction();
         List<CodeValueEventR> codeValueEventRList = sess.createQuery(
             "from CodeValueEventR where parent_cd = :parent_cd and event_cd = :event_cd",
             CodeValueEventR.class
@@ -36,8 +34,6 @@ public class CodeValueEventRResource {
             .setParameter("parent_cd", id)
             .setParameter("event_cd", parentId)
             .list();
-        tx.commit();
-        sess.close();
         return codeValueEventRList;
     }
 

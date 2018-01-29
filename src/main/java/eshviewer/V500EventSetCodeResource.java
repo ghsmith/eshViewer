@@ -10,7 +10,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * REST Web Service
@@ -26,10 +25,7 @@ public class V500EventSetCodeResource {
     public V500EventSetCode getJson(@PathParam("id") BigDecimal id, @Context HttpServletResponse response) {
         response.setHeader("Expires", "0");
         Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = sess.beginTransaction();
         V500EventSetCode v500EventSetCode = sess.get(V500EventSetCode.class, id);
-        tx.commit();
-        sess.close();
         return v500EventSetCode;
     }
 

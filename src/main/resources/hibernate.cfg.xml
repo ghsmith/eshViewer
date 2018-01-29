@@ -53,6 +53,7 @@ Contributor(s):
     <mapping class="eshviewer.data.V500EventSetCanon"/>
     <mapping class="eshviewer.data.V500EventSetCanonId"/>
     <mapping class="eshviewer.data.OrderCatalog"/>
+    <mapping class="eshviewer.data.OrderCatalogSynonym"/>
     <mapping class="eshviewer.data.CodeValueEventRId"/>
     <mapping class="eshviewer.data.V500EventCode"/>
     <mapping class="eshviewer.data.ProfileTaskR"/>
