@@ -131,11 +131,13 @@ $(document).ready(function() {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'V500EventCode\', \'' + selected.node.original.cd + '\');}">V500EventCode</a>]';
             html += '[<a href="javascript:{showEntity(\'V500EventSetExplode\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">V500EventSetExplode</a>]';
+            html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
         else if(selected.node.original.nodeType === 'discrete_task_assay') {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'DiscreteTaskAssay\', \'' + selected.node.original.cd + '\');}">DiscreteTaskAssay</a>]';
             html += '[<a href="javascript:{showEntity(\'CodeValueEventR\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">CodeValueEventR</a>]';
+            html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
         else if(selected.node.original.nodeType === 'primary_mnemonic') {
             html += 'related:';
@@ -161,7 +163,7 @@ $(document).ready(function() {
         
         <div id="header" style="width: 96%; padding-bottom: 5px;">
             <p style="font-size: small;">
-                ESH Viewer build 20180129 (PRD V500 schema replicate 20180129)<br/>
+                ESH Viewer build 20180129 (PRD V500 schema replicate 20180130)<br/>
                 <a href="http://github.com/ghsmith/eshViewer">http://github.com/ghsmith/eshViewer</a>
             </p>
             Search scope: <input id="searchScope" type="checkbox" value="S" checked="true"/> event_set

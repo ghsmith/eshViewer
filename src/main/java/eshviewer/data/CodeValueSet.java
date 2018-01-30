@@ -2,6 +2,7 @@ package eshviewer.data;
 // Generated Jan 29, 2018 4:14:35 PM by Hibernate Tools 4.3.1
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
@@ -62,48 +63,6 @@ public class CodeValueSet  implements java.io.Serializable {
     }
 
 	
-    public CodeValueSet(BigDecimal codeSet, Date updtDtTm, BigDecimal updtId, BigDecimal updtCnt, BigDecimal updtTask, BigDecimal updtApplctx) {
-        this.codeSet = codeSet;
-        this.updtDtTm = updtDtTm;
-        this.updtId = updtId;
-        this.updtCnt = updtCnt;
-        this.updtTask = updtTask;
-        this.updtApplctx = updtApplctx;
-    }
-    public CodeValueSet(BigDecimal codeSet, String display, String displayKey, String description, String definition, String tableName, String contributor, String ownerModule, BigDecimal cacheInd, BigDecimal extensionInd, BigDecimal addAccessInd, BigDecimal chgAccessInd, BigDecimal delAccessInd, BigDecimal inqAccessInd, BigDecimal domainQualifierInd, BigDecimal domainCodeSet, Date updtDtTm, BigDecimal updtId, BigDecimal updtCnt, BigDecimal updtTask, BigDecimal updtApplctx, BigDecimal codeSetHits, BigDecimal codeValuesCnt, BigDecimal defDupRuleFlag, BigDecimal cdfMeaningDupInd, BigDecimal displayKeyDupInd, BigDecimal activeIndDupInd, BigDecimal displayDupInd, BigDecimal aliasDupInd, BigDecimal definitionDupInd, Date lastUtcTs, Set<CodeValueAlias> codeValueAliases) {
-       this.codeSet = codeSet;
-       this.display = display;
-       this.displayKey = displayKey;
-       this.description = description;
-       this.definition = definition;
-       this.tableName = tableName;
-       this.contributor = contributor;
-       this.ownerModule = ownerModule;
-       this.cacheInd = cacheInd;
-       this.extensionInd = extensionInd;
-       this.addAccessInd = addAccessInd;
-       this.chgAccessInd = chgAccessInd;
-       this.delAccessInd = delAccessInd;
-       this.inqAccessInd = inqAccessInd;
-       this.domainQualifierInd = domainQualifierInd;
-       this.domainCodeSet = domainCodeSet;
-       this.updtDtTm = updtDtTm;
-       this.updtId = updtId;
-       this.updtCnt = updtCnt;
-       this.updtTask = updtTask;
-       this.updtApplctx = updtApplctx;
-       this.codeSetHits = codeSetHits;
-       this.codeValuesCnt = codeValuesCnt;
-       this.defDupRuleFlag = defDupRuleFlag;
-       this.cdfMeaningDupInd = cdfMeaningDupInd;
-       this.displayKeyDupInd = displayKeyDupInd;
-       this.activeIndDupInd = activeIndDupInd;
-       this.displayDupInd = displayDupInd;
-       this.aliasDupInd = aliasDupInd;
-       this.definitionDupInd = definitionDupInd;
-       this.lastUtcTs = lastUtcTs;
-       this.codeValueAliases = codeValueAliases;
-    }
    
      @Id 
 
@@ -417,6 +376,7 @@ public class CodeValueSet  implements java.io.Serializable {
         this.lastUtcTs = lastUtcTs;
     }
 
+    @JsonBackReference
 @OneToMany(fetch=FetchType.LAZY, mappedBy="codeValueSet")
     public Set<CodeValueAlias> getCodeValueAliases() {
         return this.codeValueAliases;

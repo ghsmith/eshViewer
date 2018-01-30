@@ -50,7 +50,7 @@ public class HibernateSessionRequestFilter implements Filter {
             // Commit and cleanup
             if (sf.getCurrentSession().getTransaction().isActive()) {
                 //log.fine("Committing the database transaction");
-                sf.getCurrentSession().getTransaction().commit();
+                sf.getCurrentSession().getTransaction().rollback();
             }
 
         } catch (StaleObjectStateException staleEx) {

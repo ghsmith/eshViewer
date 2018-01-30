@@ -148,6 +148,7 @@ public class NormalizedHierarchyNodeResource {
                     if(x % 5000 == 0) {
                         LOG.info(x + " rows cached");
                     }
+                    if(x == 100000) {break;}
                 }
                 cached = true;
             }

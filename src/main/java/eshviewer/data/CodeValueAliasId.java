@@ -31,31 +31,6 @@ public class CodeValueAliasId  implements java.io.Serializable {
     }
 
 	
-    public CodeValueAliasId(BigDecimal codeSet, BigDecimal contributorSourceCd, String alias, BigDecimal codeValue, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal updtCnt, BigDecimal updtApplctx) {
-        this.codeSet = codeSet;
-        this.contributorSourceCd = contributorSourceCd;
-        this.alias = alias;
-        this.codeValue = codeValue;
-        this.updtDtTm = updtDtTm;
-        this.updtId = updtId;
-        this.updtTask = updtTask;
-        this.updtCnt = updtCnt;
-        this.updtApplctx = updtApplctx;
-    }
-    public CodeValueAliasId(BigDecimal codeSet, BigDecimal contributorSourceCd, String alias, BigDecimal codeValue, BigDecimal primaryInd, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal updtCnt, BigDecimal updtApplctx, String aliasTypeMeaning, Date lastUtcTs) {
-       this.codeSet = codeSet;
-       this.contributorSourceCd = contributorSourceCd;
-       this.alias = alias;
-       this.codeValue = codeValue;
-       this.primaryInd = primaryInd;
-       this.updtDtTm = updtDtTm;
-       this.updtId = updtId;
-       this.updtTask = updtTask;
-       this.updtCnt = updtCnt;
-       this.updtApplctx = updtApplctx;
-       this.aliasTypeMeaning = aliasTypeMeaning;
-       this.lastUtcTs = lastUtcTs;
-    }
    
 
 

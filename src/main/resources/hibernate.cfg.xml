@@ -54,6 +54,7 @@ Contributor(s):
     <mapping class="eshviewer.data.ProfileTaskR"/>
     <mapping class="eshviewer.data.V500EventCode"/>
     <mapping class="eshviewer.data.CodeValue"/>
+    <mapping class="eshviewer.data.CodeValueRef"/>
     <mapping class="eshviewer.data.CodeValueAlias"/>
     <mapping class="eshviewer.data.CodeValueAliasId"/>
     <mapping class="eshviewer.data.DiscreteTaskAssay"/>

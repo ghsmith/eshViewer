@@ -32,11 +32,6 @@ public class CodeValueAlias  implements java.io.Serializable {
     public CodeValueAlias() {
     }
 
-    public CodeValueAlias(CodeValueAliasId id, CodeValue codeValue, CodeValueSet codeValueSet) {
-       this.id = id;
-       this.codeValue = codeValue;
-       this.codeValueSet = codeValueSet;
-    }
    
      @EmbeddedId
 
@@ -73,7 +68,7 @@ public class CodeValueAlias  implements java.io.Serializable {
         this.codeValue = codeValue;
     }
 
-    @JsonBackReference
+@JsonBackReference
 @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="CODE_SET", nullable=false, insertable=false, updatable=false)
     public CodeValueSet getCodeValueSet() {

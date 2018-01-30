@@ -2,7 +2,6 @@ package eshviewer.data;
 // Generated Jan 29, 2018 4:14:35 PM by Hibernate Tools 4.3.1
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
@@ -11,8 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,18 +24,18 @@ import javax.persistence.UniqueConstraint;
     ,schema="V500"
     , uniqueConstraints = @UniqueConstraint(columnNames={"CODE_SET", "CODE_VALUE"}) 
 )
-public class CodeValue  implements java.io.Serializable {
+public class CodeValueRef  implements java.io.Serializable {
 
 
      private BigDecimal codeValue;
-     private CodeValueSet codeSet;
+     private BigDecimal codeSet;
      private String cdfMeaning;
      private String display;
      private String displayKey;
      private String description;
      private String definition;
      private BigDecimal collationSeq;
-     private CodeValueRef activeTypeCd;
+     private BigDecimal activeTypeCd;
      private BigDecimal activeInd;
      private Date activeDtTm;
      private Date inactiveDtTm;
@@ -49,7 +46,7 @@ public class CodeValue  implements java.io.Serializable {
      private BigDecimal updtApplctx;
      private Date beginEffectiveDtTm;
      private Date endEffectiveDtTm;
-     private CodeValueRef dataStatusCd;
+     private BigDecimal dataStatusCd;
      private Date dataStatusDtTm;
      private BigDecimal dataStatusPrsnlId;
      private BigDecimal activeStatusPrsnlId;
@@ -60,7 +57,7 @@ public class CodeValue  implements java.io.Serializable {
      private Date lastUtcTs;
      private Set<CodeValueAlias> codeValueAliases = new HashSet<CodeValueAlias>(0);
 
-    public CodeValue() {
+    public CodeValueRef() {
     }
 
 	
@@ -78,13 +75,12 @@ public class CodeValue  implements java.io.Serializable {
     }
 
     
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="CODE_SET")
-    public CodeValueSet getCodeSet() {
+    @Column(name="CODE_SET", nullable=false, precision=22, scale=0)
+    public BigDecimal getCodeSet() {
         return this.codeSet;
     }
     
-    public void setCodeSet(CodeValueSet codeSet) {
+    public void setCodeSet(BigDecimal codeSet) {
         this.codeSet = codeSet;
     }
 
@@ -149,13 +145,12 @@ public class CodeValue  implements java.io.Serializable {
     }
 
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="ACTIVE_TYPE_CD")
-    public CodeValueRef getActiveTypeCd() {
+    @Column(name="ACTIVE_TYPE_CD", nullable=false, precision=22, scale=0)
+    public BigDecimal getActiveTypeCd() {
         return this.activeTypeCd;
     }
     
-    public void setActiveTypeCd(CodeValueRef activeTypeCd) {
+    public void setActiveTypeCd(BigDecimal activeTypeCd) {
         this.activeTypeCd = activeTypeCd;
     }
 
@@ -259,13 +254,12 @@ public class CodeValue  implements java.io.Serializable {
         this.endEffectiveDtTm = endEffectiveDtTm;
     }
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="DATA_STATUS_CD")
-    public CodeValueRef getDataStatusCd() {
+    @Column(name="DATA_STATUS_CD", nullable=false, precision=22, scale=0)
+    public BigDecimal getDataStatusCd() {
         return this.dataStatusCd;
     }
     
-    public void setDataStatusCd(CodeValueRef dataStatusCd) {
+    public void setDataStatusCd(BigDecimal dataStatusCd) {
         this.dataStatusCd = dataStatusCd;
     }
 
@@ -350,14 +344,14 @@ public class CodeValue  implements java.io.Serializable {
     }
 
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="codeValue")
-    public Set<CodeValueAlias> getCodeValueAliases() {
-        return this.codeValueAliases;
-    }
+    //@OneToMany(fetch=FetchType.LAZY, mappedBy="codeValue")
+    //public Set<CodeValueAlias> getCodeValueAliases() {
+    //    return this.codeValueAliases;
+    //}
     
-    public void setCodeValueAliases(Set<CodeValueAlias> codeValueAliases) {
-        this.codeValueAliases = codeValueAliases;
-    }
+    //public void setCodeValueAliases(Set<CodeValueAlias> codeValueAliases) {
+    //    this.codeValueAliases = codeValueAliases;
+    //}
 
 }
 
