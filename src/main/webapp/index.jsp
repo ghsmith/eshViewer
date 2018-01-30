@@ -133,7 +133,6 @@ $(document).ready(function() {
             html += '[<a href="javascript:{showEntity(\'V500EventCode\', \'' + selected.node.original.cd + '\');}">V500EventCode</a>]';
             html += '[<a href="javascript:{showEntity(\'V500EventSetExplode\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">V500EventSetExplode</a>]';
             html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
-            html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
         else if(selected.node.original.nodeType === 'discrete_task_assay') {
             html += 'related:';
