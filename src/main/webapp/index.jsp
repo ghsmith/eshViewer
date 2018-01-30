@@ -126,11 +126,13 @@ $(document).ready(function() {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'V500EventSetCode\', \'' + selected.node.original.cd + '\');}">V500EventSetCode</a>]';
             html += '[<a href="javascript:{showEntity(\'V500EventSetCanon\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">V500EventSetCanon</a>]';
+            html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
         else if(selected.node.original.nodeType === 'event_code') {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'V500EventCode\', \'' + selected.node.original.cd + '\');}">V500EventCode</a>]';
             html += '[<a href="javascript:{showEntity(\'V500EventSetExplode\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">V500EventSetExplode</a>]';
+            html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
             html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
         else if(selected.node.original.nodeType === 'discrete_task_assay') {
@@ -139,19 +141,20 @@ $(document).ready(function() {
             html += '[<a href="javascript:{showEntity(\'CodeValueEventR\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">CodeValueEventR</a>]';
             html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
-        else if(selected.node.original.nodeType === 'discrete_task_assay_cs200') {
+        else if(selected.node.original.nodeType === 'primary_mnemonic_no_profile') {
             html += 'related:';
-            html += '[<a href="javascript:{showEntity(\'DiscreteTaskAssay\', \'' + selected.node.original.cd + '\');}">DiscreteTaskAssay</a>]';
-            html += '[<a href="javascript:{showEntity(\'CodeValueEventR\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">CodeValueEventR</a>]';
+            html += '[<a href="javascript:{showEntity(\'OrderCatalog\', \'' + selected.node.original.cd + '\');}">OrderCatalog</a>]';
             html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
         else if(selected.node.original.nodeType === 'primary_mnemonic') {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'OrderCatalog\', \'' + selected.node.original.cd + '\');}">OrderCatalog</a>]';
+            html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
         else if(selected.node.original.nodeType === 'synonym') {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'OrderCatalogSynonym\', \'' + selected.node.original.cd + '\');}">OrderCatalogSynonym</a>]';
+            html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
         html     += '<br/><br/></div>';
         $('#detail').append(html);
@@ -217,16 +220,19 @@ Legend:
         <li>[S] = event_set node</li>
         <li>[C] = event_code node</li>
         <li>[D] = discrete_task_assay node</li>
-        <li>[D200] = discrete_task_assay-like node (from code set 200)<sup>*</sup></li>
+        <li>[Mnp] = primary_mnemonic node (order) - no profile<sup>*</sup></li>
         <li>[M] = primary_mnemonic node (order)</li>
         <li>[Y] = synonym (alternate name for an order)</li>
         <li>(#) = count of search hits for node (recursively evaluated)</li>
     </ul>
 </p>
 <p style="font-size: small;">
-    <sup>*</sup>D200 is only used if there is no discrete_task_assay node. This appears to
-    be encountered, for example, in microbiology, although I am not certain if my use of
-    code set 200 is appropriate for this purpose.
+    <sup>*</sup>Mnp is only used if there is no discrete_task_assay node. This appears to
+    be encountered, for example, in microbiology. The nomenclature reflects the
+    fact that the event_code and primary_mnemonic_no_profile nodes are related
+    without an intervening DTA (i.e., PROFILE_TASK_R record). I an not certain
+    my interpretation of the model is functionally correct.
+    
 </p>
 
 <p>

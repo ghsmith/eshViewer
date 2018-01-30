@@ -34,7 +34,7 @@ public class NormalizedHierarchyNodeResource {
         searchResultArrayKey.put("event_set", 0);
         searchResultArrayKey.put("event_code", 1);
         searchResultArrayKey.put("discrete_task_assay", 2);
-        searchResultArrayKey.put("discrete_task_assay_cs200", 2);
+        searchResultArrayKey.put("primary_mnemonic_no_profile", 3);
         searchResultArrayKey.put("primary_mnemonic", 3);
         searchResultArrayKey.put("synonym", 4);
     }
@@ -82,8 +82,8 @@ public class NormalizedHierarchyNodeResource {
             else if("discrete_task_assay".equals(nhn.getNodeType())) {
                 jsTree.text = "[D] " + nhn.getDisp();
             }
-            else if("discrete_task_assay_cs200".equals(nhn.getNodeType())) {
-                jsTree.text = "[D200] " + nhn.getDisp();
+            else if("primary_mnemonic_no_profile".equals(nhn.getNodeType())) {
+                jsTree.text = "[Mnp] " + nhn.getDisp();
             }
             else if("primary_mnemonic".equals(nhn.getNodeType())) {
                 jsTree.text = "[M] " + nhn.getDisp();
@@ -163,7 +163,7 @@ public class NormalizedHierarchyNodeResource {
             ("event_set".equals(nhn.getNodeType()) && searchScopeString.contains("S"))
             || ("event_code".equals(nhn.getNodeType()) && searchScopeString.contains("C"))
             || ("discrete_task_assay".equals(nhn.getNodeType()) && searchScopeString.contains("D"))
-            || ("discrete_task_assay_cs200".equals(nhn.getNodeType()) && searchScopeString.contains("D"))
+            || ("primary_mnemonic_no_profile".equals(nhn.getNodeType()) && searchScopeString.contains("M"))
             || ("primary_mnemonic".equals(nhn.getNodeType()) && searchScopeString.contains("M"))
             || ("synonym".equals(nhn.getNodeType()) && searchScopeString.contains("Y"))
         ) {
@@ -263,14 +263,14 @@ public class NormalizedHierarchyNodeResource {
 + "        code_value_event_r cver "
 + "      where "
 + "        exists (select 'x' from discrete_task_assay where task_assay_cd = cver.parent_cd) "
-+ "        or not exists (select 'x' from code_value where code_set = 200 and code_value = cver.parent_cd) "
++ "        or not exists (select 'x' from order_catalog where catalog_cd = cver.parent_cd) "
 + "    union all "
 + "      select "
-+ "        'discrete_task_assay_cs200' hierarchy_node_type, "
++ "        'primary_mnemonic_no_profile' hierarchy_node_type, "
 + "        cver.parent_cd event_set_cd, "
 + "        cver.event_cd parent_event_set_cd, "
 + "        0 event_set_collating_seq, "
-+ "        (select display from code_value where code_set = 200 and code_value = cver.parent_cd) event_set_cd_disp "
++ "        (select primary_mnemonic from order_catalog where catalog_cd = cver.parent_cd) event_set_cd_disp "
 + "      from "
 + "        code_value_event_r cver "
 + "      where "
