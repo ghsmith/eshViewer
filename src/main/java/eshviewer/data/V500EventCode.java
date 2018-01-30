@@ -6,7 +6,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,15 +29,15 @@ public class V500EventCode  implements java.io.Serializable {
      private String eventCdDescr;
      private String eventCdDisp;
      private String eventCdDispKey;
-     private BigDecimal codeStatusCd;
+     private CodeValue codeStatusCd;
      private String defDocmntAttributes;
-     private BigDecimal defDocmntFormatCd;
-     private BigDecimal defDocmntStorageCd;
-     private BigDecimal defEventClassCd;
-     private BigDecimal defEventConfidLevelCd;
+     private CodeValue defDocmntFormatCd;
+     private CodeValue defDocmntStorageCd;
+     private CodeValue defEventClassCd;
+     private CodeValue defEventConfidLevelCd;
      private BigDecimal defEventLevel;
      private BigDecimal eventAddAccessInd;
-     private BigDecimal eventCdSubclassCd;
+     private CodeValue eventCdSubclassCd;
      private BigDecimal eventChgAccessInd;
      private String eventSetName;
      private BigDecimal retentionDays;
@@ -43,7 +46,7 @@ public class V500EventCode  implements java.io.Serializable {
      private Date updtDtTm;
      private BigDecimal updtId;
      private BigDecimal updtTask;
-     private BigDecimal eventCodeStatusCd;
+     private CodeValue eventCodeStatusCd;
      private BigDecimal collatingSeq;
      private Date lastUtcTs;
 
@@ -51,49 +54,6 @@ public class V500EventCode  implements java.io.Serializable {
     }
 
 	
-    public V500EventCode(BigDecimal eventCd, BigDecimal codeStatusCd, BigDecimal defDocmntFormatCd, BigDecimal defDocmntStorageCd, BigDecimal defEventClassCd, BigDecimal defEventConfidLevelCd, BigDecimal eventCdSubclassCd, BigDecimal updtApplctx, BigDecimal updtCnt, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal eventCodeStatusCd, BigDecimal collatingSeq) {
-        this.eventCd = eventCd;
-        this.codeStatusCd = codeStatusCd;
-        this.defDocmntFormatCd = defDocmntFormatCd;
-        this.defDocmntStorageCd = defDocmntStorageCd;
-        this.defEventClassCd = defEventClassCd;
-        this.defEventConfidLevelCd = defEventConfidLevelCd;
-        this.eventCdSubclassCd = eventCdSubclassCd;
-        this.updtApplctx = updtApplctx;
-        this.updtCnt = updtCnt;
-        this.updtDtTm = updtDtTm;
-        this.updtId = updtId;
-        this.updtTask = updtTask;
-        this.eventCodeStatusCd = eventCodeStatusCd;
-        this.collatingSeq = collatingSeq;
-    }
-    public V500EventCode(BigDecimal eventCd, String eventCdDefinition, String eventCdDescr, String eventCdDisp, String eventCdDispKey, BigDecimal codeStatusCd, String defDocmntAttributes, BigDecimal defDocmntFormatCd, BigDecimal defDocmntStorageCd, BigDecimal defEventClassCd, BigDecimal defEventConfidLevelCd, BigDecimal defEventLevel, BigDecimal eventAddAccessInd, BigDecimal eventCdSubclassCd, BigDecimal eventChgAccessInd, String eventSetName, BigDecimal retentionDays, BigDecimal updtApplctx, BigDecimal updtCnt, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal eventCodeStatusCd, BigDecimal collatingSeq, Date lastUtcTs) {
-       this.eventCd = eventCd;
-       this.eventCdDefinition = eventCdDefinition;
-       this.eventCdDescr = eventCdDescr;
-       this.eventCdDisp = eventCdDisp;
-       this.eventCdDispKey = eventCdDispKey;
-       this.codeStatusCd = codeStatusCd;
-       this.defDocmntAttributes = defDocmntAttributes;
-       this.defDocmntFormatCd = defDocmntFormatCd;
-       this.defDocmntStorageCd = defDocmntStorageCd;
-       this.defEventClassCd = defEventClassCd;
-       this.defEventConfidLevelCd = defEventConfidLevelCd;
-       this.defEventLevel = defEventLevel;
-       this.eventAddAccessInd = eventAddAccessInd;
-       this.eventCdSubclassCd = eventCdSubclassCd;
-       this.eventChgAccessInd = eventChgAccessInd;
-       this.eventSetName = eventSetName;
-       this.retentionDays = retentionDays;
-       this.updtApplctx = updtApplctx;
-       this.updtCnt = updtCnt;
-       this.updtDtTm = updtDtTm;
-       this.updtId = updtId;
-       this.updtTask = updtTask;
-       this.eventCodeStatusCd = eventCodeStatusCd;
-       this.collatingSeq = collatingSeq;
-       this.lastUtcTs = lastUtcTs;
-    }
    
      @Id 
 
@@ -148,12 +108,13 @@ public class V500EventCode  implements java.io.Serializable {
     }
 
     
-    @Column(name="CODE_STATUS_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getCodeStatusCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="CODE_STATUS_CD")
+    public CodeValue getCodeStatusCd() {
         return this.codeStatusCd;
     }
     
-    public void setCodeStatusCd(BigDecimal codeStatusCd) {
+    public void setCodeStatusCd(CodeValue codeStatusCd) {
         this.codeStatusCd = codeStatusCd;
     }
 
@@ -168,42 +129,46 @@ public class V500EventCode  implements java.io.Serializable {
     }
 
     
-    @Column(name="DEF_DOCMNT_FORMAT_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getDefDocmntFormatCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="DEF_DOCMNT_FORMAT_CD")
+    public CodeValue getDefDocmntFormatCd() {
         return this.defDocmntFormatCd;
     }
     
-    public void setDefDocmntFormatCd(BigDecimal defDocmntFormatCd) {
+    public void setDefDocmntFormatCd(CodeValue defDocmntFormatCd) {
         this.defDocmntFormatCd = defDocmntFormatCd;
     }
 
     
-    @Column(name="DEF_DOCMNT_STORAGE_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getDefDocmntStorageCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="DEF_DOCMNT_STORAGE_CD")
+    public CodeValue getDefDocmntStorageCd() {
         return this.defDocmntStorageCd;
     }
     
-    public void setDefDocmntStorageCd(BigDecimal defDocmntStorageCd) {
+    public void setDefDocmntStorageCd(CodeValue defDocmntStorageCd) {
         this.defDocmntStorageCd = defDocmntStorageCd;
     }
 
     
-    @Column(name="DEF_EVENT_CLASS_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getDefEventClassCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="DEF_EVENT_CLASS_CD")
+    public CodeValue getDefEventClassCd() {
         return this.defEventClassCd;
     }
     
-    public void setDefEventClassCd(BigDecimal defEventClassCd) {
+    public void setDefEventClassCd(CodeValue defEventClassCd) {
         this.defEventClassCd = defEventClassCd;
     }
 
     
-    @Column(name="DEF_EVENT_CONFID_LEVEL_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getDefEventConfidLevelCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="DEF_EVENT_CONFID_LEVEL_CD")
+    public CodeValue getDefEventConfidLevelCd() {
         return this.defEventConfidLevelCd;
     }
     
-    public void setDefEventConfidLevelCd(BigDecimal defEventConfidLevelCd) {
+    public void setDefEventConfidLevelCd(CodeValue defEventConfidLevelCd) {
         this.defEventConfidLevelCd = defEventConfidLevelCd;
     }
 
@@ -228,12 +193,13 @@ public class V500EventCode  implements java.io.Serializable {
     }
 
     
-    @Column(name="EVENT_CD_SUBCLASS_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getEventCdSubclassCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="EVENT_CD_SUBCLASS_CD")
+    public CodeValue getEventCdSubclassCd() {
         return this.eventCdSubclassCd;
     }
     
-    public void setEventCdSubclassCd(BigDecimal eventCdSubclassCd) {
+    public void setEventCdSubclassCd(CodeValue eventCdSubclassCd) {
         this.eventCdSubclassCd = eventCdSubclassCd;
     }
 
@@ -318,12 +284,13 @@ public class V500EventCode  implements java.io.Serializable {
     }
 
     
-    @Column(name="EVENT_CODE_STATUS_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getEventCodeStatusCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="EVENT_CODE_STATUS_CD")
+    public CodeValue getEventCodeStatusCd() {
         return this.eventCodeStatusCd;
     }
     
-    public void setEventCodeStatusCd(BigDecimal eventCodeStatusCd) {
+    public void setEventCodeStatusCd(CodeValue eventCodeStatusCd) {
         this.eventCodeStatusCd = eventCodeStatusCd;
     }
 

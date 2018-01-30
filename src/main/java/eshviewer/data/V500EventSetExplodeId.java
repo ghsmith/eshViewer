@@ -6,6 +6,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 /**
@@ -17,7 +20,7 @@ public class V500EventSetExplodeId  implements java.io.Serializable {
 
      private BigDecimal eventCd;
      private BigDecimal eventSetCd;
-     private BigDecimal eventSetStatusCd;
+     private CodeValue eventSetStatusCd;
      private Date updtDtTm;
      private BigDecimal updtTask;
      private BigDecimal updtId;
@@ -30,28 +33,6 @@ public class V500EventSetExplodeId  implements java.io.Serializable {
     }
 
 	
-    public V500EventSetExplodeId(BigDecimal eventCd, BigDecimal eventSetCd, BigDecimal eventSetStatusCd, Date updtDtTm, BigDecimal updtTask, BigDecimal updtId, BigDecimal updtCnt, BigDecimal updtApplctx) {
-        this.eventCd = eventCd;
-        this.eventSetCd = eventSetCd;
-        this.eventSetStatusCd = eventSetStatusCd;
-        this.updtDtTm = updtDtTm;
-        this.updtTask = updtTask;
-        this.updtId = updtId;
-        this.updtCnt = updtCnt;
-        this.updtApplctx = updtApplctx;
-    }
-    public V500EventSetExplodeId(BigDecimal eventCd, BigDecimal eventSetCd, BigDecimal eventSetStatusCd, Date updtDtTm, BigDecimal updtTask, BigDecimal updtId, BigDecimal updtCnt, BigDecimal updtApplctx, BigDecimal eventSetLevel, Date lastUtcTs) {
-       this.eventCd = eventCd;
-       this.eventSetCd = eventSetCd;
-       this.eventSetStatusCd = eventSetStatusCd;
-       this.updtDtTm = updtDtTm;
-       this.updtTask = updtTask;
-       this.updtId = updtId;
-       this.updtCnt = updtCnt;
-       this.updtApplctx = updtApplctx;
-       this.eventSetLevel = eventSetLevel;
-       this.lastUtcTs = lastUtcTs;
-    }
    
 
 
@@ -75,12 +56,13 @@ public class V500EventSetExplodeId  implements java.io.Serializable {
     }
 
 
-    @Column(name="EVENT_SET_STATUS_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getEventSetStatusCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="EVENT_SET_STATUS_CD")
+    public CodeValue getEventSetStatusCd() {
         return this.eventSetStatusCd;
     }
     
-    public void setEventSetStatusCd(BigDecimal eventSetStatusCd) {
+    public void setEventSetStatusCd(CodeValue eventSetStatusCd) {
         this.eventSetStatusCd = eventSetStatusCd;
     }
 

@@ -18,7 +18,10 @@
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+        <link rel="stylesheet" href="json/jquery.jsonview.min.css" />
+        <script type="text/javascript" src="json/jquery.jsonview.min.js"></script>
 
+        
         <script lang="JavaScript">
 
 var rootId = 'd71e8dfe85fa7b59d9bc56cea8d02453';
@@ -51,11 +54,12 @@ function showEntity(entityName, id) {
         'url' : '/eshViewer/webresources/' + entityName + "/" + id,
         'success' : function(result) {
             var html  = '<div style="border: 1px solid black; margin: 5px; background-color: lightgray;">';
-            html     += entityName;
-            html     += '<pre>' + JSON.stringify(result, null, "\t") + '</pre>';
+            html     += '<span class="entityName">' + entityName + '</span>';
+            html     += '<pre></pre>';
             html     += '</div>';
             $('#detail').append(html);
-            $('#detail').scrollTop($('#detail')[0].scrollHeight - $('#detail')[0].clientHeight);
+            $('#detail pre:last').JSONView(result, { collapsed : true });
+            $('#detail div .entityName:last')[0].scrollIntoView();
         }
     });
 }
@@ -116,8 +120,8 @@ $(document).ready(function() {
 
     $('#treeView').on('select_node.jstree', function (node, selected, event) {
         var html  = '<div style="border: 1px solid black; margin: 5px; background-color: yellow;">';
-        html     += 'NormalizedHierarchyNode';
-        html     += '<pre>' + JSON.stringify(selected.node.original, null, "\t") + '</pre>';
+        html     += '<span class="entityName">NormalizedHierarchyNode</span>';
+        html     += '<pre></pre>';
         if(selected.node.original.nodeType === 'event_set') {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'V500EventSetCode\', \'' + selected.node.original.cd + '\');}">V500EventSetCode</a>]';
@@ -143,7 +147,8 @@ $(document).ready(function() {
         }
         html     += '<br/><br/></div>';
         $('#detail').append(html);
-        $('#detail').scrollTop($('#detail')[0].scrollHeight - $('#detail')[0].clientHeight);
+        $('#detail pre:last').JSONView(selected.node.original);
+        $('#detail div .entityName:last')[0].scrollIntoView();
     });
 
 });

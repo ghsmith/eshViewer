@@ -6,7 +6,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,12 +30,12 @@ public class OrderCatalog  implements java.io.Serializable {
      private BigDecimal reviewHierarchyId;
      private BigDecimal abnReviewInd;
      private BigDecimal resourceRouteCd;
-     private BigDecimal activityTypeCd;
+     private CodeValue activityTypeCd;
      private BigDecimal resourceRouteLvl;
      private BigDecimal consentFormInd;
      private BigDecimal activeInd;
      private BigDecimal promptInd;
-     private BigDecimal catalogTypeCd;
+     private CodeValue catalogTypeCd;
      private BigDecimal requisitionFormatCd;
      private BigDecimal requisitionRoutingCd;
      private BigDecimal instRestrictionInd;
@@ -51,7 +54,7 @@ public class OrderCatalog  implements java.io.Serializable {
      private BigDecimal updtCnt;
      private BigDecimal updtApplctx;
      private BigDecimal eventCd;
-     private BigDecimal activitySubtypeCd;
+     private CodeValue activitySubtypeCd;
      private BigDecimal dupCheckingInd;
      private BigDecimal billOnlyInd;
      private BigDecimal contOrderMethodFlag;
@@ -67,7 +70,7 @@ public class OrderCatalog  implements java.io.Serializable {
      private String sourceVocabIdent;
      private BigDecimal ordComTemplateLongTextId;
      private BigDecimal modifiableFlag;
-     private BigDecimal dcpClinCatCd;
+     private CodeValue dcpClinCatCd;
      private BigDecimal autoCancelInd;
      private String cki;
      private BigDecimal stopTypeCd;
@@ -92,100 +95,6 @@ public class OrderCatalog  implements java.io.Serializable {
     }
 
 	
-    public OrderCatalog(BigDecimal catalogCd, BigDecimal reviewHierarchyId, BigDecimal resourceRouteCd, BigDecimal activityTypeCd, BigDecimal catalogTypeCd, BigDecimal requisitionFormatCd, BigDecimal requisitionRoutingCd, BigDecimal oeFormatId, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal updtCnt, BigDecimal updtApplctx, BigDecimal eventCd, BigDecimal activitySubtypeCd, String primaryMnemonic, BigDecimal consentFormFormatCd, BigDecimal consentFormRoutingCd, BigDecimal csIndexCd, BigDecimal ordComTemplateLongTextId, BigDecimal dcpClinCatCd, BigDecimal stopTypeCd, BigDecimal stopDurationUnitCd, BigDecimal formId, BigDecimal icAutoVerifyFlag, BigDecimal discernAutoVerifyFlag) {
-        this.catalogCd = catalogCd;
-        this.reviewHierarchyId = reviewHierarchyId;
-        this.resourceRouteCd = resourceRouteCd;
-        this.activityTypeCd = activityTypeCd;
-        this.catalogTypeCd = catalogTypeCd;
-        this.requisitionFormatCd = requisitionFormatCd;
-        this.requisitionRoutingCd = requisitionRoutingCd;
-        this.oeFormatId = oeFormatId;
-        this.updtDtTm = updtDtTm;
-        this.updtId = updtId;
-        this.updtTask = updtTask;
-        this.updtCnt = updtCnt;
-        this.updtApplctx = updtApplctx;
-        this.eventCd = eventCd;
-        this.activitySubtypeCd = activitySubtypeCd;
-        this.primaryMnemonic = primaryMnemonic;
-        this.consentFormFormatCd = consentFormFormatCd;
-        this.consentFormRoutingCd = consentFormRoutingCd;
-        this.csIndexCd = csIndexCd;
-        this.ordComTemplateLongTextId = ordComTemplateLongTextId;
-        this.dcpClinCatCd = dcpClinCatCd;
-        this.stopTypeCd = stopTypeCd;
-        this.stopDurationUnitCd = stopDurationUnitCd;
-        this.formId = formId;
-        this.icAutoVerifyFlag = icAutoVerifyFlag;
-        this.discernAutoVerifyFlag = discernAutoVerifyFlag;
-    }
-    public OrderCatalog(BigDecimal catalogCd, BigDecimal reviewHierarchyId, BigDecimal abnReviewInd, BigDecimal resourceRouteCd, BigDecimal activityTypeCd, BigDecimal resourceRouteLvl, BigDecimal consentFormInd, BigDecimal activeInd, BigDecimal promptInd, BigDecimal catalogTypeCd, BigDecimal requisitionFormatCd, BigDecimal requisitionRoutingCd, BigDecimal instRestrictionInd, BigDecimal scheduleInd, String description, BigDecimal printReqInd, BigDecimal oeFormatId, BigDecimal orderableTypeFlag, BigDecimal quickChartInd, BigDecimal completeUponOrderInd, BigDecimal commentTemplateFlag, BigDecimal prepInfoFlag, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal updtCnt, BigDecimal updtApplctx, BigDecimal eventCd, BigDecimal activitySubtypeCd, BigDecimal dupCheckingInd, BigDecimal billOnlyInd, BigDecimal contOrderMethodFlag, BigDecimal deptDupCheckInd, String primaryMnemonic, BigDecimal orderReviewInd, BigDecimal consentFormFormatCd, BigDecimal consentFormRoutingCd, String deptDisplayName, BigDecimal refTextMask, BigDecimal csIndexCd, String sourceVocabMean, String sourceVocabIdent, BigDecimal ordComTemplateLongTextId, BigDecimal modifiableFlag, BigDecimal dcpClinCatCd, BigDecimal autoCancelInd, String cki, BigDecimal stopTypeCd, BigDecimal stopDuration, BigDecimal stopDurationUnitCd, BigDecimal dcDisplayDays, BigDecimal dcInteractionDays, BigDecimal disableOrderCommentInd, BigDecimal formId, BigDecimal formLevel, String conceptCki, BigDecimal icAutoVerifyFlag, BigDecimal discernAutoVerifyFlag, BigDecimal vettingApprovalFlag, BigDecimal opDcDisplayDays, BigDecimal opDcInteractionDays, BigDecimal dosingAllIngredInd, BigDecimal dosingActIngredCode, Date lastUtcTs) {
-       this.catalogCd = catalogCd;
-       this.reviewHierarchyId = reviewHierarchyId;
-       this.abnReviewInd = abnReviewInd;
-       this.resourceRouteCd = resourceRouteCd;
-       this.activityTypeCd = activityTypeCd;
-       this.resourceRouteLvl = resourceRouteLvl;
-       this.consentFormInd = consentFormInd;
-       this.activeInd = activeInd;
-       this.promptInd = promptInd;
-       this.catalogTypeCd = catalogTypeCd;
-       this.requisitionFormatCd = requisitionFormatCd;
-       this.requisitionRoutingCd = requisitionRoutingCd;
-       this.instRestrictionInd = instRestrictionInd;
-       this.scheduleInd = scheduleInd;
-       this.description = description;
-       this.printReqInd = printReqInd;
-       this.oeFormatId = oeFormatId;
-       this.orderableTypeFlag = orderableTypeFlag;
-       this.quickChartInd = quickChartInd;
-       this.completeUponOrderInd = completeUponOrderInd;
-       this.commentTemplateFlag = commentTemplateFlag;
-       this.prepInfoFlag = prepInfoFlag;
-       this.updtDtTm = updtDtTm;
-       this.updtId = updtId;
-       this.updtTask = updtTask;
-       this.updtCnt = updtCnt;
-       this.updtApplctx = updtApplctx;
-       this.eventCd = eventCd;
-       this.activitySubtypeCd = activitySubtypeCd;
-       this.dupCheckingInd = dupCheckingInd;
-       this.billOnlyInd = billOnlyInd;
-       this.contOrderMethodFlag = contOrderMethodFlag;
-       this.deptDupCheckInd = deptDupCheckInd;
-       this.primaryMnemonic = primaryMnemonic;
-       this.orderReviewInd = orderReviewInd;
-       this.consentFormFormatCd = consentFormFormatCd;
-       this.consentFormRoutingCd = consentFormRoutingCd;
-       this.deptDisplayName = deptDisplayName;
-       this.refTextMask = refTextMask;
-       this.csIndexCd = csIndexCd;
-       this.sourceVocabMean = sourceVocabMean;
-       this.sourceVocabIdent = sourceVocabIdent;
-       this.ordComTemplateLongTextId = ordComTemplateLongTextId;
-       this.modifiableFlag = modifiableFlag;
-       this.dcpClinCatCd = dcpClinCatCd;
-       this.autoCancelInd = autoCancelInd;
-       this.cki = cki;
-       this.stopTypeCd = stopTypeCd;
-       this.stopDuration = stopDuration;
-       this.stopDurationUnitCd = stopDurationUnitCd;
-       this.dcDisplayDays = dcDisplayDays;
-       this.dcInteractionDays = dcInteractionDays;
-       this.disableOrderCommentInd = disableOrderCommentInd;
-       this.formId = formId;
-       this.formLevel = formLevel;
-       this.conceptCki = conceptCki;
-       this.icAutoVerifyFlag = icAutoVerifyFlag;
-       this.discernAutoVerifyFlag = discernAutoVerifyFlag;
-       this.vettingApprovalFlag = vettingApprovalFlag;
-       this.opDcDisplayDays = opDcDisplayDays;
-       this.opDcInteractionDays = opDcInteractionDays;
-       this.dosingAllIngredInd = dosingAllIngredInd;
-       this.dosingActIngredCode = dosingActIngredCode;
-       this.lastUtcTs = lastUtcTs;
-    }
    
      @Id 
 
@@ -230,12 +139,13 @@ public class OrderCatalog  implements java.io.Serializable {
     }
 
     
-    @Column(name="ACTIVITY_TYPE_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getActivityTypeCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="ACTIVITY_TYPE_CD")
+    public CodeValue getActivityTypeCd() {
         return this.activityTypeCd;
     }
     
-    public void setActivityTypeCd(BigDecimal activityTypeCd) {
+    public void setActivityTypeCd(CodeValue activityTypeCd) {
         this.activityTypeCd = activityTypeCd;
     }
 
@@ -280,12 +190,13 @@ public class OrderCatalog  implements java.io.Serializable {
     }
 
     
-    @Column(name="CATALOG_TYPE_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getCatalogTypeCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="CATALOG_TYPE_CD")
+    public CodeValue getCatalogTypeCd() {
         return this.catalogTypeCd;
     }
     
-    public void setCatalogTypeCd(BigDecimal catalogTypeCd) {
+    public void setCatalogTypeCd(CodeValue catalogTypeCd) {
         this.catalogTypeCd = catalogTypeCd;
     }
 
@@ -470,12 +381,13 @@ public class OrderCatalog  implements java.io.Serializable {
     }
 
     
-    @Column(name="ACTIVITY_SUBTYPE_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getActivitySubtypeCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="ACTIVITY_SUBTYPE_CD")
+    public CodeValue getActivitySubtypeCd() {
         return this.activitySubtypeCd;
     }
     
-    public void setActivitySubtypeCd(BigDecimal activitySubtypeCd) {
+    public void setActivitySubtypeCd(CodeValue activitySubtypeCd) {
         this.activitySubtypeCd = activitySubtypeCd;
     }
 
@@ -630,12 +542,13 @@ public class OrderCatalog  implements java.io.Serializable {
     }
 
     
-    @Column(name="DCP_CLIN_CAT_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getDcpClinCatCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="DCP_CLIN_CAT_CD")
+    public CodeValue getDcpClinCatCd() {
         return this.dcpClinCatCd;
     }
     
-    public void setDcpClinCatCd(BigDecimal dcpClinCatCd) {
+    public void setDcpClinCatCd(CodeValue dcpClinCatCd) {
         this.dcpClinCatCd = dcpClinCatCd;
     }
 

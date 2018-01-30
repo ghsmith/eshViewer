@@ -2,6 +2,7 @@ package eshviewer.data;
 // Generated Jan 29, 2018 4:14:35 PM by Hibernate Tools 4.3.1
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -61,6 +62,7 @@ public class CodeValueAlias  implements java.io.Serializable {
         this.id = id;
     }
 
+    @JsonBackReference
 @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="CODE_VALUE", nullable=false, insertable=false, updatable=false)
     public CodeValue getCodeValue() {
@@ -71,6 +73,7 @@ public class CodeValueAlias  implements java.io.Serializable {
         this.codeValue = codeValue;
     }
 
+    @JsonBackReference
 @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="CODE_SET", nullable=false, insertable=false, updatable=false)
     public CodeValueSet getCodeValueSet() {

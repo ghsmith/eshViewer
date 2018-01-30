@@ -59,53 +59,6 @@ public class ProfileTaskR  implements java.io.Serializable {
     }
 
 	
-    public ProfileTaskR(ProfileTaskRId id, DiscreteTaskAssay discreteTaskAssay, BigDecimal groupCd, BigDecimal dupChkActionCd, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal updtCnt, BigDecimal updtApplctx, BigDecimal promptResourceCd, BigDecimal activeStatusCd, BigDecimal activeStatusPrsnlId, Date begEffectiveDtTm, Date endEffectiveDtTm, BigDecimal referenceTaskId, BigDecimal promptLongTextId) {
-        this.id = id;
-        this.discreteTaskAssay = discreteTaskAssay;
-        this.groupCd = groupCd;
-        this.dupChkActionCd = dupChkActionCd;
-        this.updtDtTm = updtDtTm;
-        this.updtId = updtId;
-        this.updtTask = updtTask;
-        this.updtCnt = updtCnt;
-        this.updtApplctx = updtApplctx;
-        this.promptResourceCd = promptResourceCd;
-        this.activeStatusCd = activeStatusCd;
-        this.activeStatusPrsnlId = activeStatusPrsnlId;
-        this.begEffectiveDtTm = begEffectiveDtTm;
-        this.endEffectiveDtTm = endEffectiveDtTm;
-        this.referenceTaskId = referenceTaskId;
-        this.promptLongTextId = promptLongTextId;
-    }
-    public ProfileTaskR(ProfileTaskRId id, DiscreteTaskAssay discreteTaskAssay, BigDecimal versionNbr, BigDecimal groupCd, BigDecimal itemTypeFlag, BigDecimal pendingInd, BigDecimal repeatInd, BigDecimal sequence, BigDecimal dupChkMin, BigDecimal dupChkActionCd, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal updtCnt, BigDecimal updtApplctx, BigDecimal activeInd, BigDecimal postPromptInd, BigDecimal promptResourceCd, BigDecimal activeStatusCd, Date activeStatusDtTm, BigDecimal activeStatusPrsnlId, Date begEffectiveDtTm, Date endEffectiveDtTm, BigDecimal referenceTaskId, BigDecimal promptLongTextId, BigDecimal restrictDisplayInd, Date lastUtcTs) {
-       this.id = id;
-       this.discreteTaskAssay = discreteTaskAssay;
-       this.versionNbr = versionNbr;
-       this.groupCd = groupCd;
-       this.itemTypeFlag = itemTypeFlag;
-       this.pendingInd = pendingInd;
-       this.repeatInd = repeatInd;
-       this.sequence = sequence;
-       this.dupChkMin = dupChkMin;
-       this.dupChkActionCd = dupChkActionCd;
-       this.updtDtTm = updtDtTm;
-       this.updtId = updtId;
-       this.updtTask = updtTask;
-       this.updtCnt = updtCnt;
-       this.updtApplctx = updtApplctx;
-       this.activeInd = activeInd;
-       this.postPromptInd = postPromptInd;
-       this.promptResourceCd = promptResourceCd;
-       this.activeStatusCd = activeStatusCd;
-       this.activeStatusDtTm = activeStatusDtTm;
-       this.activeStatusPrsnlId = activeStatusPrsnlId;
-       this.begEffectiveDtTm = begEffectiveDtTm;
-       this.endEffectiveDtTm = endEffectiveDtTm;
-       this.referenceTaskId = referenceTaskId;
-       this.promptLongTextId = promptLongTextId;
-       this.restrictDisplayInd = restrictDisplayInd;
-       this.lastUtcTs = lastUtcTs;
-    }
    
      @EmbeddedId
 

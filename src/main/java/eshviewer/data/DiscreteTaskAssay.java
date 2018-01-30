@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -29,8 +31,8 @@ public class DiscreteTaskAssay  implements java.io.Serializable {
      private BigDecimal taskAssayCd;
      private BigDecimal strtAssayId;
      private String mnemonicKeyCap;
-     private BigDecimal activityTypeCd;
-     private BigDecimal defaultResultTypeCd;
+     private CodeValue activityTypeCd;
+     private CodeValue defaultResultTypeCd;
      private BigDecimal eventCd;
      private BigDecimal taskReptInd;
      private String mnemonic;
@@ -53,7 +55,7 @@ public class DiscreteTaskAssay  implements java.io.Serializable {
      private BigDecimal bbResultProcessingCd;
      private String refRangeScript;
      private BigDecimal codeSet;
-     private BigDecimal activeStatusCd;
+     private CodeValue activeStatusCd;
      private Date activeStatusDtTm;
      private BigDecimal activeStatusPrsnlId;
      private Date begEffectiveDtTm;
@@ -80,82 +82,6 @@ public class DiscreteTaskAssay  implements java.io.Serializable {
     }
 
 	
-    public DiscreteTaskAssay(BigDecimal taskAssayCd, BigDecimal strtAssayId, BigDecimal activityTypeCd, BigDecimal defaultResultTypeCd, BigDecimal eventCd, BigDecimal historyActivityTypeCd, BigDecimal signatureLineInd, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal updtCnt, BigDecimal updtApplctx, BigDecimal hlaLociCd, BigDecimal bbResultProcessingCd, BigDecimal activeStatusCd, BigDecimal activeStatusPrsnlId, Date begEffectiveDtTm, Date endEffectiveDtTm, BigDecimal radSectionTypeCd, double versionNumber, BigDecimal singleSelectInd, BigDecimal defaultTypeFlag, String conceptCki) {
-        this.taskAssayCd = taskAssayCd;
-        this.strtAssayId = strtAssayId;
-        this.activityTypeCd = activityTypeCd;
-        this.defaultResultTypeCd = defaultResultTypeCd;
-        this.eventCd = eventCd;
-        this.historyActivityTypeCd = historyActivityTypeCd;
-        this.signatureLineInd = signatureLineInd;
-        this.updtDtTm = updtDtTm;
-        this.updtId = updtId;
-        this.updtTask = updtTask;
-        this.updtCnt = updtCnt;
-        this.updtApplctx = updtApplctx;
-        this.hlaLociCd = hlaLociCd;
-        this.bbResultProcessingCd = bbResultProcessingCd;
-        this.activeStatusCd = activeStatusCd;
-        this.activeStatusPrsnlId = activeStatusPrsnlId;
-        this.begEffectiveDtTm = begEffectiveDtTm;
-        this.endEffectiveDtTm = endEffectiveDtTm;
-        this.radSectionTypeCd = radSectionTypeCd;
-        this.versionNumber = versionNumber;
-        this.singleSelectInd = singleSelectInd;
-        this.defaultTypeFlag = defaultTypeFlag;
-        this.conceptCki = conceptCki;
-    }
-    public DiscreteTaskAssay(BigDecimal taskAssayCd, BigDecimal strtAssayId, String mnemonicKeyCap, BigDecimal activityTypeCd, BigDecimal defaultResultTypeCd, BigDecimal eventCd, BigDecimal taskReptInd, String mnemonic, String description, BigDecimal transmitIndicator, BigDecimal printResults, BigDecimal printRefRangesOnRept, BigDecimal historyActivityTypeCd, BigDecimal signatureLineInd, BigDecimal renderingProviderInd, BigDecimal icdCodeInd, BigDecimal cernerDefinedInd, BigDecimal activeInd, Date updtDtTm, BigDecimal updtId, BigDecimal updtTask, BigDecimal updtCnt, BigDecimal updtApplctx, BigDecimal hlaLociCd, BigDecimal bbResultProcessingCd, String refRangeScript, BigDecimal codeSet, BigDecimal activeStatusCd, Date activeStatusDtTm, BigDecimal activeStatusPrsnlId, Date begEffectiveDtTm, Date endEffectiveDtTm, BigDecimal interpDataInd, BigDecimal radSectionTypeCd, BigDecimal relAssayInd, BigDecimal deltaLvlFlag, BigDecimal modifierInd, double versionNumber, BigDecimal singleSelectInd, BigDecimal defaultTypeFlag, String conceptCki, BigDecimal ioFlag, BigDecimal sciNotationInd, BigDecimal labelTemplateId, BigDecimal templateScriptCd, String mnemonicKeyCapNls, String mnemonicKeyCapANls, Date lastUtcTs, Set profileTaskRs) {
-       this.taskAssayCd = taskAssayCd;
-       this.strtAssayId = strtAssayId;
-       this.mnemonicKeyCap = mnemonicKeyCap;
-       this.activityTypeCd = activityTypeCd;
-       this.defaultResultTypeCd = defaultResultTypeCd;
-       this.eventCd = eventCd;
-       this.taskReptInd = taskReptInd;
-       this.mnemonic = mnemonic;
-       this.description = description;
-       this.transmitIndicator = transmitIndicator;
-       this.printResults = printResults;
-       this.printRefRangesOnRept = printRefRangesOnRept;
-       this.historyActivityTypeCd = historyActivityTypeCd;
-       this.signatureLineInd = signatureLineInd;
-       this.renderingProviderInd = renderingProviderInd;
-       this.icdCodeInd = icdCodeInd;
-       this.cernerDefinedInd = cernerDefinedInd;
-       this.activeInd = activeInd;
-       this.updtDtTm = updtDtTm;
-       this.updtId = updtId;
-       this.updtTask = updtTask;
-       this.updtCnt = updtCnt;
-       this.updtApplctx = updtApplctx;
-       this.hlaLociCd = hlaLociCd;
-       this.bbResultProcessingCd = bbResultProcessingCd;
-       this.refRangeScript = refRangeScript;
-       this.codeSet = codeSet;
-       this.activeStatusCd = activeStatusCd;
-       this.activeStatusDtTm = activeStatusDtTm;
-       this.activeStatusPrsnlId = activeStatusPrsnlId;
-       this.begEffectiveDtTm = begEffectiveDtTm;
-       this.endEffectiveDtTm = endEffectiveDtTm;
-       this.interpDataInd = interpDataInd;
-       this.radSectionTypeCd = radSectionTypeCd;
-       this.relAssayInd = relAssayInd;
-       this.deltaLvlFlag = deltaLvlFlag;
-       this.modifierInd = modifierInd;
-       this.versionNumber = versionNumber;
-       this.singleSelectInd = singleSelectInd;
-       this.defaultTypeFlag = defaultTypeFlag;
-       this.conceptCki = conceptCki;
-       this.ioFlag = ioFlag;
-       this.sciNotationInd = sciNotationInd;
-       this.labelTemplateId = labelTemplateId;
-       this.templateScriptCd = templateScriptCd;
-       this.mnemonicKeyCapNls = mnemonicKeyCapNls;
-       this.mnemonicKeyCapANls = mnemonicKeyCapANls;
-       this.lastUtcTs = lastUtcTs;
-       this.profileTaskRs = profileTaskRs;
-    }
    
      @Id 
 
@@ -190,22 +116,24 @@ public class DiscreteTaskAssay  implements java.io.Serializable {
     }
 
     
-    @Column(name="ACTIVITY_TYPE_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getActivityTypeCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="ACTIVITY_TYPE_CD")
+    public CodeValue getActivityTypeCd() {
         return this.activityTypeCd;
     }
     
-    public void setActivityTypeCd(BigDecimal activityTypeCd) {
+    public void setActivityTypeCd(CodeValue activityTypeCd) {
         this.activityTypeCd = activityTypeCd;
     }
 
     
-    @Column(name="DEFAULT_RESULT_TYPE_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getDefaultResultTypeCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="DEFAULT_RESULT_TYPE_CD")
+    public CodeValue getDefaultResultTypeCd() {
         return this.defaultResultTypeCd;
     }
     
-    public void setDefaultResultTypeCd(BigDecimal defaultResultTypeCd) {
+    public void setDefaultResultTypeCd(CodeValue defaultResultTypeCd) {
         this.defaultResultTypeCd = defaultResultTypeCd;
     }
 
@@ -430,12 +358,13 @@ public class DiscreteTaskAssay  implements java.io.Serializable {
     }
 
     
-    @Column(name="ACTIVE_STATUS_CD", nullable=false, precision=22, scale=0)
-    public BigDecimal getActiveStatusCd() {
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="ACTIVE_STATUS_CD")
+    public CodeValue getActiveStatusCd() {
         return this.activeStatusCd;
     }
     
-    public void setActiveStatusCd(BigDecimal activeStatusCd) {
+    public void setActiveStatusCd(CodeValue activeStatusCd) {
         this.activeStatusCd = activeStatusCd;
     }
 
