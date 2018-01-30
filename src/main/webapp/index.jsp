@@ -71,8 +71,8 @@ $(document).ready(function() {
             'data' : {
                 'url' : function(node) {
                     return node.id === '#' ?
-                        '/eshViewer/webresources/normalizedHierarchyNode/jsTree' :
-                        '/eshViewer/webresources/normalizedHierarchyNode/jsTree' ;
+                        '/eshViewer/webresources/NormalizedHierarchyNode/jsTree' :
+                        '/eshViewer/webresources/NormalizedHierarchyNode/jsTree' ;
                 },
                 'data' : function (node) {
                     return node.id === '#' ?
@@ -92,7 +92,7 @@ $(document).ready(function() {
            searchScopeString += $(value).val();
         });
         $.ajax({
-            'url' : '/eshViewer/webresources/normalizedHierarchyNode/searchResult?searchString=' + encodeURIComponent($('#searchText').val()) + '&searchScopeString=' + searchScopeString,
+            'url' : '/eshViewer/webresources/NormalizedHierarchyNode/searchResult?searchString=' + encodeURIComponent($('#searchText').val()) + '&searchScopeString=' + searchScopeString,
             'success' : function(result) {
                 searchResultMap = result;
                 setNodeSearchState();
@@ -139,6 +139,12 @@ $(document).ready(function() {
             html += '[<a href="javascript:{showEntity(\'CodeValueEventR\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">CodeValueEventR</a>]';
             html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
+        else if(selected.node.original.nodeType === 'discrete_task_assay_cs200') {
+            html += 'related:';
+            html += '[<a href="javascript:{showEntity(\'DiscreteTaskAssay\', \'' + selected.node.original.cd + '\');}">DiscreteTaskAssay</a>]';
+            html += '[<a href="javascript:{showEntity(\'CodeValueEventR\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">CodeValueEventR</a>]';
+            html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
+        }
         else if(selected.node.original.nodeType === 'primary_mnemonic') {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'OrderCatalog\', \'' + selected.node.original.cd + '\');}">OrderCatalog</a>]';
@@ -163,7 +169,7 @@ $(document).ready(function() {
         
         <div id="header" style="width: 96%; padding-bottom: 5px;">
             <p style="font-size: small;">
-                ESH Viewer build 20180129 (PRD V500 schema replicate 20180130)<br/>
+                ESH Viewer build 20180130 (PRD V500 schema replicate 20180129)<br/>
                 <a href="http://github.com/ghsmith/eshViewer">http://github.com/ghsmith/eshViewer</a>
             </p>
             Search scope: <input id="searchScope" type="checkbox" value="S" checked="true"/> event_set
@@ -211,10 +217,16 @@ Legend:
         <li>[S] = event_set node</li>
         <li>[C] = event_code node</li>
         <li>[D] = discrete_task_assay node</li>
+        <li>[D200] = discrete_task_assay-like node (from code set 200)<sup>*</sup></li>
         <li>[M] = primary_mnemonic node (order)</li>
         <li>[Y] = synonym (alternate name for an order)</li>
         <li>(#) = count of search hits for node (recursively evaluated)</li>
     </ul>
+</p>
+<p style="font-size: small;">
+    <sup>*</sup>D200 is only used if there is no discrete_task_assay node. This appears to
+    be encountered, for example, in microbiology, although I am not certain if my use of
+    code set 200 is appropriate for this purpose.
 </p>
 
 <p>
@@ -228,6 +240,8 @@ To-do:
         <li>Searches are currently unconstrained, which is probably unwise.</li>
         <li>More sophisticated searching modalities (e.g., natural language
         search).</li>
+        <li>Create another hierarchy abstraction that turns this one upside
+        down (root is the order catalog instead of the event set hierarchy).</li>
     </ol>
 </p>
 
