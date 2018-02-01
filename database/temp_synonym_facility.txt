@@ -1,0 +1,22 @@
+create table temp_synonym_facility
+(
+  synonym_id number,
+  facility_cd number,
+  constraint temp_syn_fac_pk primary key
+  (
+    synonym_id,
+    facility_cd
+  )
+);
+
+load data
+INTO TABLE temp_synonym_facility
+INSERT
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+(
+   facility_cd
+,  x filler
+,  y filler
+,  z filler
+,  synonym_id
+)

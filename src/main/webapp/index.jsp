@@ -140,7 +140,7 @@ $(document).ready(function() {
             html += '[<a href="javascript:{showEntity(\'CodeValueEventR\', \'' + selected.node.original.cd + '.' + selected.node.original.parentCd + '\');}">CodeValueEventR</a>]';
             html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
         }
-        else if(selected.node.original.nodeType === 'primary_mnemonic_no_profile') {
+        else if(selected.node.original.nodeType === 'primary_mnemonic_no_dta') {
             html += 'related:';
             html += '[<a href="javascript:{showEntity(\'OrderCatalog\', \'' + selected.node.original.cd + '\');}">OrderCatalog</a>]';
             html += '[<a href="javascript:{showEntity(\'CodeValue\', \'' + selected.node.original.cd + '\');}">CodeValue</a>]';
@@ -219,19 +219,18 @@ Legend:
         <li>[S] = event_set node</li>
         <li>[C] = event_code node</li>
         <li>[D] = discrete_task_assay node</li>
-        <li>[Mnp] = primary_mnemonic node (order) - no profile<sup>*</sup></li>
+        <li>[Mnd] = primary_mnemonic node (order) - no DTA<sup>*</sup></li>
         <li>[M] = primary_mnemonic node (order)</li>
         <li>[Y] = synonym (alternate name for an order)</li>
         <li>(#) = count of search hits for node (recursively evaluated)</li>
     </ul>
 </p>
 <p style="font-size: small;">
-    <sup>*</sup>Mnp is only used if there is no discrete_task_assay node. This appears to
+    <sup>*</sup>[Mnd] is only used if there is no [D] node. This appears to
     be encountered, for example, in microbiology. The nomenclature reflects the
     fact that the event_code and primary_mnemonic_no_profile nodes are related
-    without an intervening DTA (i.e., PROFILE_TASK_R record). I an not certain
-    my interpretation of the model is functionally correct.
-    
+    without an intervening DTA. I an not certain my interpretation of the model
+    is functionally correct.
 </p>
 
 <p>

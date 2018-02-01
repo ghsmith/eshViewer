@@ -34,7 +34,7 @@ public class NormalizedHierarchyNodeResource {
         searchResultArrayKey.put("event_set", 0);
         searchResultArrayKey.put("event_code", 1);
         searchResultArrayKey.put("discrete_task_assay", 2);
-        searchResultArrayKey.put("primary_mnemonic_no_profile", 3);
+        searchResultArrayKey.put("primary_mnemonic_no_dta", 3);
         searchResultArrayKey.put("primary_mnemonic", 3);
         searchResultArrayKey.put("synonym", 4);
     }
@@ -46,6 +46,7 @@ public class NormalizedHierarchyNodeResource {
         public String nodeType;
         public String cd;
         public String parentCd;
+        public String listFacility;
     }
 
     @GET
@@ -82,14 +83,14 @@ public class NormalizedHierarchyNodeResource {
             else if("discrete_task_assay".equals(nhn.getNodeType())) {
                 jsTree.text = "[D] " + nhn.getDisp();
             }
-            else if("primary_mnemonic_no_profile".equals(nhn.getNodeType())) {
-                jsTree.text = "[Mnp] " + nhn.getDisp();
+            else if("primary_mnemonic_no_dta".equals(nhn.getNodeType())) {
+                jsTree.text = "[Mnd] " + nhn.getDisp();
             }
             else if("primary_mnemonic".equals(nhn.getNodeType())) {
                 jsTree.text = "[M] " + nhn.getDisp();
             }
             else if("synonym".equals(nhn.getNodeType())) {
-                jsTree.text = "[Y] " + nhn.getDisp();
+                jsTree.text = "[Y] " + nhn.getDisp() + " " + nhn.getListFacility();
             }
             else {
                 jsTree.text = "[?] " + nhn.getDisp();
@@ -98,6 +99,7 @@ public class NormalizedHierarchyNodeResource {
             jsTree.nodeType = nhn.getNodeType();
             jsTree.cd = nhn.getCd();
             jsTree.parentCd = nhn.getParentCd();
+            jsTree.listFacility = nhn.getListFacility();
             jsTreeList.add(jsTree);
         }
         return jsTreeList;
@@ -152,6 +154,7 @@ public class NormalizedHierarchyNodeResource {
                     if(x % 5000 == 0) {
                         LOG.info(x + " rows cached");
                     }
+                    if(x == 10000) { break; }
                 }
                 cached = true;
             }
@@ -163,7 +166,7 @@ public class NormalizedHierarchyNodeResource {
             ("event_set".equals(nhn.getNodeType()) && searchScopeString.contains("S"))
             || ("event_code".equals(nhn.getNodeType()) && searchScopeString.contains("C"))
             || ("discrete_task_assay".equals(nhn.getNodeType()) && searchScopeString.contains("D"))
-            || ("primary_mnemonic_no_profile".equals(nhn.getNodeType()) && searchScopeString.contains("M"))
+            || ("primary_mnemonic_no_dta".equals(nhn.getNodeType()) && searchScopeString.contains("M"))
             || ("primary_mnemonic".equals(nhn.getNodeType()) && searchScopeString.contains("M"))
             || ("synonym".equals(nhn.getNodeType()) && searchScopeString.contains("Y"))
         ) {
@@ -197,7 +200,8 @@ public class NormalizedHierarchyNodeResource {
 + "  event_set_cd cd, "
 + "  NULL parent_cd, "
 + "  0 seq, "
-+ "  event_set_cd_disp disp "
++ "  event_set_cd_disp disp, "
++ "  NULL list_facility "
 + "from "
 + "  v500_event_set_code "
 + "where "
@@ -211,7 +215,19 @@ public class NormalizedHierarchyNodeResource {
 + "  hier.event_set_cd cd, "
 + "  hier.parent_event_set_cd parent_cd, "
 + "  hier.event_set_collating_seq seq, "
-+ "  hier.event_set_cd_disp disp "
++ "  hier.event_set_cd_disp disp, "
++ "  ( "
++ "    select "
++ "      listagg(display, ',') within group(order by display) "
++ "    from "
++ "      temp_synonym_facility, "
++ "      code_value "
++ "    where "
++ "      facility_cd = code_value "
++ "      and code_value in(667203, 667209, 667217, 425207704, 455667735) "
++ "      and synonym_id = hier.event_set_cd "
++ "  ) "
++ "  list_facility "            
 + "from "
 + "  ( "
 + "    /*-- ************************************************************************* "
@@ -266,7 +282,7 @@ public class NormalizedHierarchyNodeResource {
 + "        or not exists (select 'x' from order_catalog where catalog_cd = cver.parent_cd) "
 + "    union all "
 + "      select "
-+ "        'primary_mnemonic_no_profile' hierarchy_node_type, "
++ "        'primary_mnemonic_no_dta' hierarchy_node_type, "
 + "        cver.parent_cd event_set_cd, "
 + "        cver.event_cd parent_event_set_cd, "
 + "        0 event_set_collating_seq, "

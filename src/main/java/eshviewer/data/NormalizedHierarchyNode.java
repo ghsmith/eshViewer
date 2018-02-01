@@ -25,6 +25,7 @@ public class NormalizedHierarchyNode implements java.io.Serializable {
     String parentCd;
     String seq;
     String disp;
+    String listFacility;
 
     NormalizedHierarchyNode parent;
     List<NormalizedHierarchyNode> children;
@@ -91,6 +92,15 @@ public class NormalizedHierarchyNode implements java.io.Serializable {
 
     public void setDisp(String disp) {
         this.disp = disp;
+    }
+
+    @Column(name="LIST_FACILITY")
+    public String getListFacility() {
+        return listFacility;
+    }
+
+    public void setListFacility(String listFacility) {
+        this.listFacility = listFacility;
     }
 
     @Transient
