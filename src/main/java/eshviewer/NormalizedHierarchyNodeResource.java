@@ -29,14 +29,16 @@ public class NormalizedHierarchyNodeResource {
     private static final Logger LOG = Logger.getLogger(NormalizedHierarchyNodeResource.class.getName());
     
     private static final Map<String, Integer> searchResultArrayKey = new HashMap<String, Integer>();
-
+    
     static {
+        
         searchResultArrayKey.put("event_set", 0);
         searchResultArrayKey.put("event_code", 1);
         searchResultArrayKey.put("discrete_task_assay", 2);
         searchResultArrayKey.put("primary_mnemonic_no_dta", 3);
         searchResultArrayKey.put("primary_mnemonic", 3);
         searchResultArrayKey.put("synonym", 4);
+        
     }
 
     public static class JsTree {
@@ -47,6 +49,7 @@ public class NormalizedHierarchyNodeResource {
         public String cd;
         public String parentCd;
         public String listFacility;
+        public String[] facility;
     }
 
     @GET
@@ -90,7 +93,7 @@ public class NormalizedHierarchyNodeResource {
                 jsTree.text = "[M] " + nhn.getDisp();
             }
             else if("synonym".equals(nhn.getNodeType())) {
-                jsTree.text = "[Y] " + nhn.getDisp() + " " + nhn.getListFacility();
+                jsTree.text = "[Y] " + nhn.getDisp();
             }
             else {
                 jsTree.text = "[?] " + nhn.getDisp();
@@ -99,7 +102,8 @@ public class NormalizedHierarchyNodeResource {
             jsTree.nodeType = nhn.getNodeType();
             jsTree.cd = nhn.getCd();
             jsTree.parentCd = nhn.getParentCd();
-            jsTree.listFacility = nhn.getListFacility();
+            jsTree.listFacility = nhn.getListFacilityUnparsed();
+            jsTree.facility = nhn.getFacility();
             jsTreeList.add(jsTree);
         }
         return jsTreeList;
@@ -132,6 +136,7 @@ public class NormalizedHierarchyNodeResource {
                     .addEntity(NormalizedHierarchyNode.class)
                     .uniqueResult();
                 nhnMapById.put(rootNhn.getId(), rootNhn);
+                rootNhn.setFacility(new String[] { "?", "?", "?", "?", "?" });
                 ScrollableResults results = sess.createSQLQuery(
                     "select x.* from (" + hierarchicalQuery + ") x"
                 )
@@ -150,11 +155,34 @@ public class NormalizedHierarchyNodeResource {
                         }
                         parentNhn.getChildren().add(nhn);
                     }
+                    if(!"synonym".equals(nhn.getNodeType())) {
+                        nhn.setFacility(new String[] { "?", "?", "?", "?", "?" });
+                    }
+                    else {
+                        if(nhn.getListFacilityUnparsed() == null) {
+                            nhn.setFacility(new String[] { "E", "M", "T", "S", "J" });
+                        }
+                        else {
+                            nhn.setFacility(new String[] { "-", "-", "-", "-", "-" });
+                            if(nhn.getListFacilityUnparsed().contains("EUH"))  { nhn.getFacility()[0] = "E"; }
+                            if(nhn.getListFacilityUnparsed().contains("ECLH")) { nhn.getFacility()[1] = "M"; }
+                            if(nhn.getListFacilityUnparsed().contains("TEC"))  { nhn.getFacility()[2] = "T"; }
+                            if(nhn.getListFacilityUnparsed().contains("SJH"))  { nhn.getFacility()[3] = "S"; }
+                            if(nhn.getListFacilityUnparsed().contains("EJCH")) { nhn.getFacility()[4] = "J"; }
+                        }
+                        for(NormalizedHierarchyNode parentNhnCrawler = nhn.getParent(); parentNhnCrawler != null; parentNhnCrawler = parentNhnCrawler.getParent()) {
+                            for(int facilityIndex = 0; facilityIndex < nhn.getFacility().length; facilityIndex++) {
+                                if("?".equals(parentNhnCrawler.getFacility()[facilityIndex]) || !"-".equals(nhn.getFacility()[facilityIndex])) {
+                                    parentNhnCrawler.getFacility()[facilityIndex] = nhn.getFacility()[facilityIndex];
+                                }
+                            }
+                        }
+                    }
                     x++;
                     if(x % 5000 == 0) {
                         LOG.info(x + " rows cached");
                     }
-                    if(x == 10000) { break; }
+                    //if(x == 10000) { break; }
                 }
                 cached = true;
             }
@@ -216,17 +244,27 @@ public class NormalizedHierarchyNodeResource {
 + "  hier.parent_event_set_cd parent_cd, "
 + "  hier.event_set_collating_seq seq, "
 + "  hier.event_set_cd_disp disp, "
-+ "  ( "
-+ "    select "
-+ "      listagg(display, ',') within group(order by display) "
-+ "    from "
-+ "      temp_synonym_facility, "
-+ "      code_value "
-+ "    where "
-+ "      facility_cd = code_value "
-+ "      and code_value in(667203, 667209, 667217, 425207704, 455667735) "
-+ "      and synonym_id = hier.event_set_cd "
-+ "  ) "
++ "  decode(hier.hierarchy_node_type, 'synonym', nvl( "
++ "    ( "
++ "      select "
++ "        listagg(display, ',') within group(order by display) "
++ "      from "
++ "        temp_synonym_facility, "
++ "        code_value "
++ "      where "
++ "        facility_cd = code_value "
++ "        and code_value in(667203, 667209, 667217, 425207704, 455667735) "
++ "        and synonym_id = hier.event_set_cd "
++ "    ), "
++ "    ( "
++ "      select "
++ "        listagg(display, ',') within group(order by display) "
++ "      from "
++ "        code_value "
++ "      where "
++ "        code_value in(667203, 667209, 667217, 425207704, 455667735) "
++ "    ) "
++ "  )) "
 + "  list_facility "            
 + "from "
 + "  ( "

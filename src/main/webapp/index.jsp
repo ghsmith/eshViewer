@@ -33,7 +33,7 @@ function setNodeSearchState() {
         var node = $('#treeView').jstree().get_node(this.id);
         if(this.id in searchResultMap) {
             node.li_attr['style'] = 'font-weight: bold;';
-            if($('#searchShowCounts').is(':checked')) {
+            if($('#optionShowCounts').is(':checked')) {
                 $('#treeView').jstree('set_text', node, node.original.text + " (" + searchResultMap[this.id][0] + "<sub>S</sub> " + searchResultMap[this.id][1] + "<sub>C</sub> " + searchResultMap[this.id][2] + "<sub>D</sub> " + searchResultMap[this.id][3] + "<sub>M</sub> " + searchResultMap[this.id][4] + "<sub>Y</sub>)");
             }
             else {
@@ -44,8 +44,13 @@ function setNodeSearchState() {
         else {
             node.li_attr['style'] = 'font-weight : normal;';
             $('#treeView').jstree('set_text', node, node.original.text);
-            $('#treeView').jstree($('#searchPrune').is(':checked') ? 'hide_node' : 'show_node', node);
+            $('#treeView').jstree($('#optionPrune').is(':checked') ? 'hide_node' : 'show_node', node);
         }
+        if($('#optionShowFacilities').is(':checked')) {
+            var text = $('#treeView').jstree('get_text', node);
+            $('#treeView').jstree('set_text', node, "[" + node.original.facility[0] + node.original.facility[1] + node.original.facility[2] + node.original.facility[3] + node.original.facility[4] + "]" + text);
+        }
+        
     });
 }
 
@@ -100,15 +105,23 @@ $(document).ready(function() {
         });
     });
 
-    $('#searchPrune').on('click', function() {
+    $('#optionShowCounts').on('click', function() {
         setNodeSearchState();
     });
 
-    $('#searchShowCounts').on('click', function() {
+    $('#optionShowFacilities').on('click', function() {
         setNodeSearchState();
     });
 
-    $('#treeView').on('after_open.jstree', function (node) {
+    $('#optionPrune').on('click', function() {
+        setNodeSearchState();
+    });
+
+    $('#treeView').on('loaded.jstree', function(node) {
+        setNodeSearchState();
+    });
+    
+    $('#treeView').on('after_open.jstree', function(node) {
         setNodeSearchState();
     });
 
@@ -157,7 +170,7 @@ $(document).ready(function() {
         }
         html     += '<br/><br/></div>';
         $('#detail').append(html);
-        $('#detail pre:last').JSONView(selected.node.original);
+        $('#detail pre:last').JSONView(selected.node.original, { collapsed : true });
         $('#detail div .entityName:last')[0].scrollIntoView();
     });
 
@@ -171,7 +184,7 @@ $(document).ready(function() {
         
         <div id="header" style="width: 96%; padding-bottom: 5px;">
             <p style="font-size: small;">
-                ESH Viewer build 20180130 (PRD V500 schema replicate 20180129)<br/>
+                ESH Viewer build 20180201 (PRD V500 schema replicate 20180129)<br/>
                 <a href="http://github.com/ghsmith/eshViewer">http://github.com/ghsmith/eshViewer</a>
             </p>
             Search scope: <input id="searchScope" type="checkbox" value="S" checked="true"/> event_set
@@ -179,8 +192,9 @@ $(document).ready(function() {
                           <input id="searchScope" type="checkbox" value="D" checked="true"/> discrete_task_assay
                           <input id="searchScope" type="checkbox" value="M" checked="true"/> primary_mnemonic
                           <input id="searchScope" type="checkbox" value="Y" checked="true"/> synonym<br/>
-            Options: <input id="searchShowCounts" type="checkbox" checked="true"/> Show search hit counts
-                     <input id="searchPrune" type="checkbox"/> Prune tree branches without search hits<br/>
+            Options: <input id="optionShowCounts" type="checkbox" checked="true"/> Show search hit counts
+                     <input id="optionShowFacilities" type="checkbox" checked="true"/> Show facilities
+                     <input id="optionPrune" type="checkbox"/> Prune tree branches without search hits<br/>
             <input id="searchText" type="text" size="60"/> <input id="searchButton" type="button" value="Search">
         </div>
         <div id="treeView" style="width: 48%; height: 80vh; border: 1px solid black; display: inline-block; vertical-align: top; overflow-y: auto;"></div>
