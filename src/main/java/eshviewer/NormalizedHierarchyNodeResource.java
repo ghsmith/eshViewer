@@ -50,6 +50,7 @@ public class NormalizedHierarchyNodeResource {
         public String parentCd;
         public String listFacility;
         public String[] facility;
+        public String activeInd;
     }
 
     @GET
@@ -104,6 +105,7 @@ public class NormalizedHierarchyNodeResource {
             jsTree.parentCd = nhn.getParentCd();
             jsTree.listFacility = nhn.getListFacilityUnparsed();
             jsTree.facility = nhn.getFacility();
+            jsTree.activeInd = nhn.getActiveInd();
             jsTreeList.add(jsTree);
         }
         return jsTreeList;
@@ -229,7 +231,8 @@ public class NormalizedHierarchyNodeResource {
 + "  NULL parent_cd, "
 + "  0 seq, "
 + "  event_set_cd_disp disp, "
-+ "  NULL list_facility "
++ "  NULL list_facility, "
++ "  '?' active_ind "
 + "from "
 + "  v500_event_set_code "
 + "where "
@@ -265,7 +268,8 @@ public class NormalizedHierarchyNodeResource {
 + "        code_value in(667203, 667209, 667217, 425207704, 455667735) "
 + "    ) "
 + "  )) "
-+ "  list_facility "            
++ "  list_facility, "
++ "  hier.active_ind "            
 + "from "
 + "  ( "
 + "    /*-- ************************************************************************* "
@@ -279,7 +283,8 @@ public class NormalizedHierarchyNodeResource {
 + "        esc.event_set_cd, "
 + "        esc.parent_event_set_cd, "
 + "        esc.event_set_collating_seq, "
-+ "        (select event_set_cd_disp from v500_event_set_code where event_set_cd = esc.event_set_cd) event_set_cd_disp "
++ "        (select event_set_cd_disp from v500_event_set_code where event_set_cd = esc.event_set_cd) event_set_cd_disp, "
++ "        '?' active_ind "
 + "      from "
 + "        v500_event_set_canon esc "
 + "    union all "
@@ -288,7 +293,8 @@ public class NormalizedHierarchyNodeResource {
 + "        ese.event_cd event_set_cd, "
 + "        ese.event_set_cd parent_event_set_cd, "
 + "        ese.event_cd event_set_collating_seq, "
-+ "        (select event_cd_disp from v500_event_code where event_cd = ese.event_cd) event_set_cd_disp "
++ "        (select event_cd_disp from v500_event_code where event_cd = ese.event_cd) event_set_cd_disp, "
++ "        '?' active_ind "
 + "      from "
 + "        v500_event_set_explode ese "
 + "      where "
@@ -312,7 +318,8 @@ public class NormalizedHierarchyNodeResource {
 + "        cver.parent_cd event_set_cd, "
 + "        cver.event_cd parent_event_set_cd, "
 + "        0 event_set_collating_seq, "
-+ "        (select mnemonic from discrete_task_assay where task_assay_cd = cver.parent_cd) event_set_cd_disp "
++ "        (select mnemonic from discrete_task_assay where task_assay_cd = cver.parent_cd) event_set_cd_disp, "
++ "        '?' active_ind "
 + "      from "
 + "        code_value_event_r cver "
 + "      where "
@@ -324,7 +331,8 @@ public class NormalizedHierarchyNodeResource {
 + "        cver.parent_cd event_set_cd, "
 + "        cver.event_cd parent_event_set_cd, "
 + "        0 event_set_collating_seq, "
-+ "        (select primary_mnemonic from order_catalog where catalog_cd = cver.parent_cd) event_set_cd_disp "
++ "        (select primary_mnemonic from order_catalog where catalog_cd = cver.parent_cd) event_set_cd_disp, "
++ "        (select to_char(active_ind) from order_catalog where catalog_cd = cver.parent_cd) active_ind "
 + "      from "
 + "        code_value_event_r cver "
 + "      where "
@@ -335,7 +343,8 @@ public class NormalizedHierarchyNodeResource {
 + "        oc.catalog_cd event_set_cd, "
 + "        ptr.task_assay_cd parent_event_set_cd, "
 + "        0 event_set_collating_seq, "
-+ "        oc.primary_mnemonic || decode(ptr.active_ind, 0, ' (active_ind=0 for this DTA)') event_set_cd_disp "
++ "        oc.primary_mnemonic || decode(ptr.active_ind, 0, ' {active_ind=0 for this DTA}') event_set_cd_disp, "
++ "        to_char(oc.active_ind) active_ind "
 + "      from "
 + "        profile_task_r ptr, "
 + "        order_catalog oc "
@@ -347,7 +356,8 @@ public class NormalizedHierarchyNodeResource {
 + "        ocs.synonym_id event_set_cd, "
 + "        ocs.catalog_cd parent_event_set_cd, "
 + "        0 event_set_collating_seq, "
-+ "        ocs.mnemonic event_set_cd_disp "
++ "        ocs.mnemonic event_set_cd_disp, "
++ "        to_char(ocs.active_ind) active_ind "
 + "      from "
 + "        order_catalog_synonym ocs "
 + "  ) "

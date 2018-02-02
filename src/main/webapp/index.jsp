@@ -32,7 +32,7 @@ function setNodeSearchState() {
     $($('#treeView').jstree().get_json($('#treeView'), { 'flat' : 'true' })).each(function(index, value) {
         var node = $('#treeView').jstree().get_node(this.id);
         if(this.id in searchResultMap) {
-            node.li_attr['style'] = 'font-weight: bold;';
+            node.li_attr['style'] = 'font-weight: bold;' + (node.original.activeInd === '0' ? ' background-color: lightgray;' : '');
             if($('#optionShowCounts').is(':checked')) {
                 $('#treeView').jstree('set_text', node, node.original.text + " (" + searchResultMap[this.id][0] + "<sub>S</sub> " + searchResultMap[this.id][1] + "<sub>C</sub> " + searchResultMap[this.id][2] + "<sub>D</sub> " + searchResultMap[this.id][3] + "<sub>M</sub> " + searchResultMap[this.id][4] + "<sub>Y</sub>)");
             }
@@ -42,7 +42,7 @@ function setNodeSearchState() {
             $('#treeView').jstree('show_node', node);
         }
         else {
-            node.li_attr['style'] = 'font-weight : normal;';
+            node.li_attr['style'] = 'font-weight : normal;' + (node.original.activeInd === '0' ? ' background-color: lightgray;' : '');
             $('#treeView').jstree('set_text', node, node.original.text);
             $('#treeView').jstree($('#optionPrune').is(':checked') ? 'hide_node' : 'show_node', node);
         }

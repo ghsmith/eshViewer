@@ -27,6 +27,7 @@ public class NormalizedHierarchyNode implements java.io.Serializable {
     String disp;
     String listFacilityUnparsed;
     String[] facility;
+    String activeInd;
 
     NormalizedHierarchyNode parent;
     List<NormalizedHierarchyNode> children;
@@ -129,6 +130,15 @@ public class NormalizedHierarchyNode implements java.io.Serializable {
 
     public void setFacility(String[] facility) {
         this.facility = facility;
+    }
+
+    @Column(name="ACTIVE_IND")
+    public String getActiveInd() {
+        return activeInd;
+    }
+
+    public void setActiveInd(String activeInd) {
+        this.activeInd = activeInd;
     }
     
 }
