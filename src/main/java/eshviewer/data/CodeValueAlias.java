@@ -48,7 +48,7 @@ public class CodeValueAlias  implements java.io.Serializable {
         @AttributeOverride(name="updtCnt", column=@Column(name="UPDT_CNT", nullable=false, precision=22, scale=0) ), 
         @AttributeOverride(name="updtApplctx", column=@Column(name="UPDT_APPLCTX", nullable=false, precision=22, scale=0) ), 
         @AttributeOverride(name="aliasTypeMeaning", column=@Column(name="ALIAS_TYPE_MEANING", length=12) ), 
-        @AttributeOverride(name="lastUtcTs", column=@Column(name="LAST_UTC_TS") ) } )
+        /*@AttributeOverride(name="lastUtcTs", column=@Column(name="LAST_UTC_TS") )*/ } )
     public CodeValueAliasId getId() {
         return this.id;
     }

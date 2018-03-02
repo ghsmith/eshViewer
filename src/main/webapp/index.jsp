@@ -248,6 +248,26 @@ Legend:
 </p>
 
 <p>
+Tables currently referenced in the V500 schema:
+  <ul>
+    <li>CODE_VALUE</li>
+    <li>CODE_VALUE_ALIAS</li>
+    <li>CODE_VALUE_EVENT_R</li>
+    <li>CODE_VALUE_SET</li>
+    <li>DISCRETE_TASK_ASSAY</li>
+    <li>ORDER_CATALOG</li>
+    <li>ORDER_CATALOG_SYNONYM</li>
+    <li>PROFILE_TASK_R</li>
+    <li>TEMP_SYNONYM_FACILITY - This intended to simulate OCS_FACILITY_R; <span style="background-color: yellow;">we need to remember to ask for OCS_FACILITY_R in the next quarterly export</span>.</li>
+    <li>V500_EVENT_CODE</li>
+    <li>V500_EVENT_SET_CANON</li>
+    <li>V500_EVENT_SET_CODE</li>
+    <li>V500_EVENT_SET_EXPLODE</li>
+    <li>VIRTUAL_VIEW - This table is currently not used by this application.</li>
+  </ul>
+</p>
+
+<p>
 To-do:
     <ol>
         <li>Extend generalization to better cover microbiology and blood bank nodes.</li>
