@@ -184,7 +184,7 @@ $(document).ready(function() {
         
         <div id="header" style="width: 96%; padding-bottom: 5px;">
             <p style="font-size: small;">
-                ESH Viewer build 20180201 (PRD V500 schema replicate 20180129)<br/>
+                ESH Viewer build 20180201 (PRD V500 schema replicate 20180525)<br/>
                 <a href="http://github.com/ghsmith/eshViewer">http://github.com/ghsmith/eshViewer</a>
             </p>
             Search scope: <input id="searchScope" type="checkbox" value="S" checked="true"/> event_set
@@ -255,15 +255,14 @@ Tables currently referenced in the V500 schema:
     <li>CODE_VALUE_EVENT_R</li>
     <li>CODE_VALUE_SET</li>
     <li>DISCRETE_TASK_ASSAY</li>
+    <li>OCS_FACILITY_R</li>
     <li>ORDER_CATALOG</li>
     <li>ORDER_CATALOG_SYNONYM</li>
     <li>PROFILE_TASK_R</li>
-    <li>TEMP_SYNONYM_FACILITY - This intended to simulate OCS_FACILITY_R; <span style="background-color: yellow;">we need to remember to ask for OCS_FACILITY_R in the next quarterly export</span>.</li>
     <li>V500_EVENT_CODE</li>
     <li>V500_EVENT_SET_CANON</li>
     <li>V500_EVENT_SET_CODE</li>
     <li>V500_EVENT_SET_EXPLODE</li>
-    <li>VIRTUAL_VIEW - This table is currently not used by this application.</li>
   </ul>
 </p>
 
@@ -272,7 +271,6 @@ To-do:
     <ol>
         <li>Extend generalization to better cover microbiology and blood bank nodes.</li>
         <li>Show more detail information in this pane when a node is clicked.</li>
-        <li>Attempt to expose "virtual viewing."</li>
         <li>Consider whether or not primary_mnemonic would be better represented
         as detail attribute.</li>
         <li>Searches are currently unconstrained, which is probably unwise.</li>

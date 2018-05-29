@@ -1,5 +1,6 @@
 select 'drop table ' || table_name || ';' from user_tables;
 impdp system fromuser=v500 touser=v500 file=expdp_prd_v500_geoff_20180129.dmp remap_tablespace=D_CODE:USERS remap_tablespace=D_CODE_VALUE:USERS remap_tablespace=D_PROCEDURE_DIR:USERS remap_tablespace=D_PROFILE_TASK_R:USERS remap_tablespace=I_CODE:USERS remap_tablespace=I_CODE_VALUE:USERS remap_tablespace=I_PROCEDURE_DIR:USERS remap_tablespace=I_PROFILE_TASK_R:USERS remap_tablespace=D_ORDERS:USERS
+alter table ocs_facility_r add constraint temp_ocs_facility_r_pk primary key(synonym_id, facility_cd);
 execute dbms_stats.gather_schema_stats('V500');
 select 'grant select on ' || table_name || ' to v500_read_all;' from user_tables;
 select 'create synonym v500_read_all_user.' || table_name || ' for v500.' || table_name || ';' from user_tables;

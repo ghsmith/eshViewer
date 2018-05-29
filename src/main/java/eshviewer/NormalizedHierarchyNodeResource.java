@@ -252,7 +252,7 @@ public class NormalizedHierarchyNodeResource {
 + "      select "
 + "        listagg(display, ',') within group(order by display) "
 + "      from "
-+ "        temp_synonym_facility, "
++ "        ocs_facility_r, "
 + "        code_value "
 + "      where "
 + "        facility_cd = code_value "
