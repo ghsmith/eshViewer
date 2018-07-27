@@ -356,7 +356,7 @@ public class NormalizedHierarchyNodeResource {
 + "        ocs.synonym_id event_set_cd, "
 + "        ocs.catalog_cd parent_event_set_cd, "
 + "        0 event_set_collating_seq, "
-+ "        ocs.mnemonic event_set_cd_disp, "
++ "        ocs.mnemonic || decode(ocs.hide_flag, 1, ' {hide_flag=1 for this synonym}') event_set_cd_disp, "
 + "        to_char(ocs.active_ind) active_ind "
 + "      from "
 + "        order_catalog_synonym ocs "
