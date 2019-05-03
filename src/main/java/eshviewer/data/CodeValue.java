@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 /**
@@ -350,7 +351,8 @@ public class CodeValue  implements java.io.Serializable {
     }
 
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="codeValue")
+    //@OneToMany(fetch=FetchType.LAZY, mappedBy="codeValue")
+    @Transient
     public Set<CodeValueAlias> getCodeValueAliases() {
         return this.codeValueAliases;
     }
