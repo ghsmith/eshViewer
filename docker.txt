@@ -1,0 +1,11 @@
+docker run -d -it --name orcl20200219 -p 49161:1521 store/oracle/database-enterprise:12.2.0.1
+...create and populate schema (see v500.sql and Copy.java)...
+docker run -d -it --name tomcat20200219 -p 8080:8080 --link orcl20200219 -e JAVA_OPTS='-Xms4096m -Xmx4096m' tomcat:latest
+docker cp ojdbc6-11.2.0.3.jar tomcat20200219:/usr/local/tomcat/lib
+docker cp eshViewer.war tomcat20200219:/usr/local/tomcat/webapps
+docker stop tomcat20200219
+docker start tomcat20200219
+...set database connection parameters in context.xml...
+docker cp context.xml tomcat20200219:/usr/local/tomcat/webapps/eshViewer/META-INF
+docker stop tomcat20200219
+docker start tomcat20200219
